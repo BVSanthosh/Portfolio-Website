@@ -1,0 +1,14 @@
+{
+  "name": "project-0925",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
+    "start:client": "cd client && npm start",
+    "start:server": "cd server && npm start",
+    "install": "cd client && npm install && cd ../server && npm install"
+  }
+}
