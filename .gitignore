@@ -5,7 +5,7 @@
 /build/
 
 # Environment files
-.env
+server/.env
 
 # Logs
 *.log

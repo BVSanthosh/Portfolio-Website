@@ -5,27 +5,29 @@ const User = require("../models/userModel")
 
 exports.signup = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
-        if (!username || !email || !password) {
+        if (!firstName || !lastName || !email || !password) {
             return res.status(400).json({
                 success: false,
                 message: "Missing user credentials"});
         }
 
-        const exisitingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({ email });
 
-        if (exisitingUser) {
+        if (existingUser) {
             return res.status(400).json({
                 success: false,
                 message: "User already exists"});
         }
 
+        console.log("test");
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds)
 
         const newUser = new User({
-            username,
+            firstName,
+            lastName,
             email,
             password: hashedPassword,
         });
@@ -35,7 +37,10 @@ exports.signup = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: 'User sign up successful',
-            data: newUser.username
+            data: {
+                firstName: newUser.firstName,
+                lastName: newUser.lastName
+            }
         });
 
     } catch(error) {
@@ -49,16 +54,16 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const {username, password} = req.body;
+        const {email, password} = req.body;
 
-        if (!username || !password){
+        if (!email || !password){
             return res.status(400).json({
                 success: false,
                 message: "Missing user credentials"
             });
         }
 
-        const existingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({ email });
 
         if (!existingUser){
             return res.status(401).json({
@@ -76,9 +81,16 @@ exports.login = async (req, res) => {
             });
         }
 
+        const payload = {
+            id: existingUser._id,               
+            firstName: existingUser.firstName, 
+            lastName: existingUser.lastName,   
+            email: existingUser.email
+        };
+
         const token = jwt.sign(
-            {userId: existingUser._id, username: existingUser.username},
-            process.env.SECRET_KEY || "",
+            payload,
+            process.env.SECRET_KEY || "1234!@#%<{*&)",
             {expiresIn: "1h"}
         );
 
@@ -86,7 +98,9 @@ exports.login = async (req, res) => {
             success: true,
             message: "User logged in successfully",
             data: {
-                username: existingUser.username
+                firstName: existingUser.firstName,
+                lastName: existingUser.lastName,
+                email: existingUser.email
             },
             token: token
         });
