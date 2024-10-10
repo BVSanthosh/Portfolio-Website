@@ -1,8 +1,13 @@
+/*
+    Contains the controllers for authentication (login and signup)
+*/
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/userModel")
+const User = require("../models/userModel")  //imports the database model used to store user credentials
 
+//signup controller which contains the logic for handling signup requests
 exports.signup = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
@@ -52,6 +57,7 @@ exports.signup = async (req, res) => {
     }
 }
 
+//login controller which contains the logic for handling login requests
 exports.login = async (req, res) => {
     try {
         const {email, password} = req.body;

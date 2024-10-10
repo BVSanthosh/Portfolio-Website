@@ -1,12 +1,18 @@
+/**
+ * The Home component
+ */
+
 import { useNavigate } from 'react-router-dom'; 
 
 function Home() {
     const navigate = useNavigate();
 
+    //event handler for navigating to the signup page
     const goToSignup = () => {
         navigate('/signup');
     }
 
+    //event handler for navigating to the login page
     const goToLogin = () => {
         navigate('/login');
     }

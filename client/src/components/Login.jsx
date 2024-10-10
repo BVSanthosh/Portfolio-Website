@@ -1,6 +1,10 @@
+/**
+ * The Login component
+ */
+
 import axios from 'axios';
 import { useState } from  'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 
 function Login() {
     const navigate = useNavigate();
@@ -10,6 +14,7 @@ function Login() {
         password: ''
     });
 
+    //event handler for updating the input fields in the form to show user input
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -19,11 +24,12 @@ function Login() {
         }));
     }
 
+    //event handler for submitting the login form data to the server
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/user/login', loginForm);
+            const response = await axios.post('http://localhost:5000/api/v1/user/login', loginForm);  //establishes a http connection to the specified endpoint
 
             if (response.data.success) {
                 console.log('Login successful:', response.data);
@@ -72,6 +78,9 @@ function Login() {
                 <button type="submit" className="btn btn-primary">Log In</button>
                 {errorMessage && <p className="text-danger mt-3">{errorMessage}</p>}
             </form>
+            <div className="mt-3">
+                <p>Don&apos;t have an account? <Link to="/signup">Sign Up</Link></p>
+            </div>
         </div>
     );
 }
