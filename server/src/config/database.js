@@ -1,24 +1,21 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
+/**
+ * Main database file for managing access to the database
+ */
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(process.env.MONGO_URI, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const path = require('path');
 
-async function run() {
+const envPath = path.join(__dirname, '..', '..', '.env');
+dotenv.config({ path: envPath });   //reads the .env variables
+
+//establishes a connection with the database using the URL stored in .env
+exports.connectDB = async () => {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    const con = await mongoose.connect(process.env.MONGO_URL);
+    console.log(`MongoDB connected: ${con.connection.host}`);
+  } catch(error) {
+    console.error(`Error connecting to MongoDB: ${error}`);
+    process.exit(1);
   }
 }
-run().catch(console.dir);

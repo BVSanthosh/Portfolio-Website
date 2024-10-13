@@ -1,24 +1,22 @@
-import logo from "./logo.svg";
-import "./App.css";
+/**
+ * Root component of the application where all the other components are mounted onto
+ */
+
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+
+import Home from './components/Home.jsx';  //imports the Home component
+import Login from './components/Login.jsx';  //imports the Login component
+import Signup from './components/Signup.jsx';  //imports the Signup component
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />}/> 
+        <Route path="/signup" element={<Signup />}/>
+        <Route path="/login" element={<Login />}/>
+      </Routes>
+    </Router>
   );
 }
 
