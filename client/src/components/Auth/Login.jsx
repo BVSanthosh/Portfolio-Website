@@ -9,7 +9,7 @@ import { useNavigate, Link} from 'react-router-dom';
 function Login() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-    const [loginForm, setloginForm] = useState({
+    const [loginForm, setLoginForm] = useState({
         email: '',
         password: ''
     });
@@ -18,7 +18,7 @@ function Login() {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setloginForm((prevData) => ({
+        setLoginForm((prevData) => ({
             ...prevData,
             [name]: value
         }));
@@ -52,7 +52,7 @@ function Login() {
                         Email:
                     </label>
                     <input 
-                        type="text"
+                        type="email"
                         id="email" 
                         name="email"
                         value={loginForm.email}

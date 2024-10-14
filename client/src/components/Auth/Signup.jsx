@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
 function Signup() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-    const [signupForm, setsignupForm] = useState({
+    const [signupForm, setSignupForm] = useState({
         firstName: '',
         lastName: '',
         email: '',
@@ -20,7 +20,7 @@ function Signup() {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setsignupForm((prevData) => ({
+        setSignupForm((prevData) => ({
             ...prevData,
             [name]: value
         }));
@@ -31,7 +31,6 @@ function Signup() {
         e.preventDefault();
         
         try {
-            console.log(signupForm);
             const response = await axios.post('http://localhost:5000/api/v1/user/signup', signupForm);  //establishes a http connection to the specified endpoint
 
             if (response.data.success) {
