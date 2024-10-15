@@ -13,6 +13,7 @@ function FormSummary() {
             <div className="mb-3">
                 <textarea
                     id="summary"
+                    name="summary"
                     value={summary}
                     onChange={handleChange}
                     rows="4" 

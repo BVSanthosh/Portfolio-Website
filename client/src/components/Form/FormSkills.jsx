@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function FormSkills() {
-    const [skills, setSkills] = useState();
+    const [skills, setSkills] = useState('');
 
     const handleChange = (e) => {
         setSkills(e.target.value);
@@ -11,12 +11,11 @@ function FormSkills() {
         <div className="container mt-5">
             <h4>Skills</h4>
             <div className="mb-3">
-                <textarea
-                    id="summary"
-                    value={skills}
+                <input
+                    type="text"
+                    id="skill"
+                    name="skill"
                     onChange={handleChange}
-                    rows="4" 
-                    cols="50"
                     required
                 />
             </div>
