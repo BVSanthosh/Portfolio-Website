@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function FormSummary() {
+function SummaryForm() {
     const [summary, setSummary] = useState();
 
     const handleChange = (e) => {
@@ -27,4 +27,4 @@ function FormSummary() {
     );
 }
 
-export default FormSummary;
+export default SummaryForm;

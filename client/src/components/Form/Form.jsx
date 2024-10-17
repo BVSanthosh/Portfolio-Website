@@ -1,8 +1,8 @@
-import FormContact from './FormContact.jsx';
-import FormEducation from './FormEducation.jsx';
-import FormExperience from './FormExperience.jsx';
-import FormSkills from './FormSkills.jsx';
-import FormSummary from './FormSummary.jsx';
+import ConatctForm from './ContactForm.jsx';
+import EducationForm from './EducationForm.jsx';
+import ExperienceForm from './ExperienceForm.jsx';
+import SkillsForm from './SkillsForm.jsx';
+import SumaryForm from './SummaryForm.jsx';
 
 function Form() {
 
@@ -14,11 +14,11 @@ function Form() {
         <div className="container mt-5">
             <h2>Complete Your Profile</h2>
             <form onSubmit={handleSubmit}>
-                <FormContact />
-                <FormSummary />
-                <FormExperience />
-                <FormEducation />
-                <FormSkills />
+                <ConatctForm />
+                <SumaryForm />
+                <ExperienceForm />
+                <EducationForm />
+                <SkillsForm />
                 <button type="submit" className="btn btn-primary">Generate Profile</button>
             </form>
         </div>

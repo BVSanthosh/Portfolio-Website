@@ -1,7 +1,7 @@
 // FormContact.jsx
 import { useState } from 'react';
 
-function FormContact() {
+function ContactForm() {
     const [contactInfo, setContactInfo] = useState({
         fullName: '',  
         email: '',
@@ -75,4 +75,4 @@ function FormContact() {
     );
 }
 
-export default FormContact;
+export default ContactForm;

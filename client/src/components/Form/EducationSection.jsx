@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-function FormEducation() {
+function ExperienceSection({ index, handleEducationChange }) {
     const [education, setEducation] = useState({
+        id: index,
         qualification: "",
         institutionName: "",
         location: "",
@@ -13,88 +14,97 @@ function FormEducation() {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setEducation((prevState) => ({
-            ...prevState,
-            [name]: value
-        }));
-    }
+        setEducation((prevState) => {
+            const updatedEducation = {
+                ...prevState,
+                [name]: value
+            };
 
-    return (
-        <div className="container mt-5">
-            <h4>Education</h4>
+            handleEducationChange(index, updatedEducation);
+            return updatedEducation;
+        });
+    };
+
+    return(
+        <div>
             <div className="mb-3">
-                <label htmlFor="qualification" className="form-label"> 
+                <label htmlFor={`qualification-${index}`} className="form-label"> 
                     Qualification: 
                 </label>
                 
                 <input
                     type="text"
+                    id={`qualification-${index}`}
                     name="qualification"  
-                    id="qualification"
+                    value={education.qualification}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor="institution-name" className="form-label"> 
+                <label htmlFor={`institution-name-${index}`} className="form-label"> 
                     Institution Name: 
                 </label>
                 
                 <input
                     type="text"
-                    name="institutionName"  
-                    id="institution-name"
+                    id={`institution-name-${index}`}
+                    name="institutionName" 
+                    value={education.institutionName} 
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor="location" className="form-label"> 
+                <label htmlFor={`location-${index}`} className="form-label"> 
                     Location: 
                 </label>
                 
                 <input
                     type="text"
+                    id={`location-${index}`}
                     name="location"  
-                    id="location"
+                    value={education.location}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor="start-date" className="form-label"> 
+                <label htmlFor={`start-date-${index}`} className="form-label"> 
                     Start Date: 
                 </label>
                 
                 <input
                     type="date"
-                    name="startDate"  
-                    id="start-date"
+                    id={`start-date-${index}`}
+                    name="startDate" 
+                    value={education.startDate} 
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor="end-date" className="form-label"> 
+                <label htmlFor={`end-date-${index}`} className="form-label"> 
                     End Date: 
                 </label>
                 
                 <input
                     type="date"
+                    id={`end-date-${index}`}
                     name="endDate"  
-                    id="end-date"
+                    value={education.endDate}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor="achievements" className="form-label"> 
+                <label htmlFor={`achievements-${index}`} className="form-label"> 
                     Achievements: 
                 </label>
                 <br/>
                 <textarea
                     id="achievements"
-                    name="achievements"
+                    name={`achievements-${index}`}
                     value={education.achievements}
                     onChange={handleChange}
                     rows="4" 
@@ -102,10 +112,8 @@ function FormEducation() {
                     required
                 />
             </div>
-            
-            <p>{JSON.stringify(education, null, 2)}</p>
         </div>
     );
 }
 
-export default FormEducation;
+export default ExperienceSection;
