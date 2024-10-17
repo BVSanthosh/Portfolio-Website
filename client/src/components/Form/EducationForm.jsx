@@ -1,23 +1,7 @@
-import { useState } from 'react';
-
 import ExperienceSection from './EducationSection.jsx';
 
-function EducationForm() {
-    const [educations, setEducations] = useState([]);
-
-    const handleEducationChange = (index, updatedEducation) => {
-        const newEducations = [...educations]
-        newEducations[index] = updatedEducation;
-        setEducations(newEducations);
-    };
-
-    const handleAddEducation = (newEducation) => {
-        setEducations([
-            ...educations,
-            newEducation
-        ]);
-    };
-
+function EducationForm({ educations, handleEducationChange, handleAddEducation }) {
+    
     return (
         <div className="container mt-5">
             <h4>Education</h4>
@@ -31,8 +15,6 @@ function EducationForm() {
             <button className="btn btn-primary" type="button" onClick={() => handleAddEducation({})}>
                 Add Education
             </button>
-
-            <p>{JSON.stringify(educations, null, 2)}</p>
         </div>
     );
 }

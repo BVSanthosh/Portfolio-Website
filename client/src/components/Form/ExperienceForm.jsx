@@ -1,24 +1,7 @@
-import { useState } from 'react';
-
 import ExperienceSection from './ExperienceSection.jsx';
 
-function ExperienceForm() {
-    const [experiences, setExperiences] = useState([]);
-
+function ExperienceForm({ experiences, handleExperienceChange, handleAddExperience }) {
     
-    const handleExperienceChange  = (index, updatedExperience) => {
-        const newExperiences = [...experiences];
-        newExperiences[index] = updatedExperience; 
-        setExperiences(newExperiences);
-    };
-    
-    const handleAddExperience = (newExperience) => {
-        setExperiences([
-            ...experiences,
-            newExperience
-        ]);
-    };
-
     return (
         <div className="container mt-5">
             <h4>Work Experience</h4>
@@ -32,7 +15,6 @@ function ExperienceForm() {
             <button className="btn btn-primary" type="button" onClick={() => handleAddExperience({})}>
                 Add Experience
             </button>
-            <p>{JSON.stringify(experiences, null, 2)}</p>
         </div>
     );
 }

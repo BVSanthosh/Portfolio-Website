@@ -1,11 +1,4 @@
-import { useState } from 'react';
-
-function SummaryForm() {
-    const [summary, setSummary] = useState();
-
-    const handleChange = (e) => {
-        setSummary(e.target.value);
-    }
+function SummaryForm({ handleSummaryChange }) {
 
     return (
         <div className="container mt-5">
@@ -14,15 +7,12 @@ function SummaryForm() {
                 <textarea
                     id="summary"
                     name="summary"
-                    value={summary}
-                    onChange={handleChange}
+                    onChange={handleSummaryChange}
                     rows="4" 
                     cols="50"
                     required
                 />
             </div>
-            
-            <p>{JSON.stringify(summary, null, 2)}</p>
         </div>
     );
 }

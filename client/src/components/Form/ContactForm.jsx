@@ -1,22 +1,4 @@
-// FormContact.jsx
-import { useState } from 'react';
-
-function ContactForm() {
-    const [contactInfo, setContactInfo] = useState({
-        fullName: '',  
-        email: '',
-        phoneNumber: '',  
-        linkedin: '',
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        setContactInfo((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
-    }
+function ContactForm({ handleContactChange }) {
 
     return (
         <div className="container mt-5">
@@ -30,7 +12,7 @@ function ContactForm() {
                     type="text"
                     name="fullName"  
                     id="full-name"
-                    onChange={handleChange}
+                    onChange={handleContactChange}
                     required
                 />
             </div>
@@ -42,7 +24,7 @@ function ContactForm() {
                     type="email"  
                     name="email"
                     id="email"
-                    onChange={handleChange}
+                    onChange={handleContactChange}
                     required
                 />
             </div>
@@ -54,7 +36,7 @@ function ContactForm() {
                     type="tel"  
                     name="phoneNumber"  
                     id="phone-number"
-                    onChange={handleChange}
+                    onChange={handleContactChange}
                     required
                 />
             </div>
@@ -66,11 +48,10 @@ function ContactForm() {
                     type="text"
                     name="linkedin"
                     id="linkedin"
-                    onChange={handleChange}
+                    onChange={handleContactChange}
                     required
                 />
             </div>
-            <p>{JSON.stringify(contactInfo, null, 2)}</p>
         </div>
     );
 }
