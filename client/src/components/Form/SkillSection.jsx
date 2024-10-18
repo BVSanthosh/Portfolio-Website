@@ -1,21 +1,22 @@
-import { useState } from 'react';
-
-function SkillSection({ index, handleSkillChange }) {
-    const [skill, setSkill] = useState("");
+function SkillSection({ skill, handleSkillChange }) {
 
     const handleChange = (e) => {
         const value = e.target.value;
-        handleSkillChange(index, value);
-        setSkill(value);
+        const updatedSkill = {
+            ...skill,
+            name: value
+        };
+
+        handleSkillChange(updatedSkill);
     };
 
     return(
         <div className="mb-3">
             <input
                 type="text"
-                id={`skill-${index}`}
+                id={`skill-${skill.id}`}
                 name="skill"
-                value={skill}
+                value={skill.name}
                 onChange={handleChange}
                 required
             />

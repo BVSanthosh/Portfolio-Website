@@ -10,23 +10,20 @@ import SumaryForm from './SummaryForm.jsx';
 
 function Form() {
     const navigate = useNavigate();
-
     const [errorMessage, setErrorMessage] = useState('');
-
     const [contactInfo, setContactInfo] = useState({
         fullName: '',  
         email: '',
         phoneNumber: '',  
         linkedin: '',
     });
-
     const [summary, setSummary] = useState('');
-
     const [experiences, setExperiences] = useState([]);
-
     const [educations, setEducations] = useState([]);
-
     const [skills, setSkills] = useState([]);
+    const [nextExpId, setNextExpId] = useState(0);
+    const [nextEduId, setNextEduId] = useState(0);
+    const [nextSkillId, setNextSkillId] = useState(0);
 
     const formData = {
         contactInfo: contactInfo,
@@ -49,44 +46,76 @@ function Form() {
         setSummary(e.target.value);
     }
 
-    const handleExperienceChange  = (index, updatedExperience) => {
-        const newExperiences = [...experiences];
-        newExperiences[index] = updatedExperience; 
-        setExperiences(newExperiences);
+    const handleExperienceChange  = (updatedExperience) => {
+        setExperiences(prevExperience => prevExperience.map(exp => exp.id == updatedExperience.id ? updatedExperience : exp));
     };
     
-    const handleAddExperience = (newExperience) => {
+    const handleAddExperience = () => {
+    
         setExperiences([
             ...experiences,
-            newExperience
+            {
+                id: nextExpId,
+                jobTitle: '',
+                companyName: '',
+                location: '',
+                startDate: '',
+                endDate: '',
+                achievements: ''
+            }
         ]);
+
+        setNextExpId(nextExpId => nextExpId + 1);
     };
 
-    const handleEducationChange = (index, updatedEducation) => {
-        const newEducations = [...educations]
-        newEducations[index] = updatedEducation;
-        setEducations(newEducations);
+    const handleRemoveExperience = (experience) => {
+        setExperiences(experiences.filter(exp => exp.id !== experience.id));
     };
 
-    const handleAddEducation = (newEducation) => {
+    const handleEducationChange = (updatedEducation) => {
+        setEducations(prevEducations => prevEducations.map(edu => edu.id == updatedEducation.id ? updatedEducation : edu));
+    };
+
+    const handleAddEducation = () => {
         setEducations([
             ...educations,
-            newEducation
+            {
+                id: nextEduId,
+                qualification: '',
+                institutionName: '',
+                location: '',
+                startDate: '',
+                endDate: '',
+                achievements: ''
+            }
         ]);
+
+        setNextEduId(nextEduId => nextEduId + 1);
     };
 
-    const handleSkillChange = (index, updatedSkill) => {
-        const newSkills = [...skills];
-        newSkills[index] = updatedSkill;
-        setSkills(newSkills);
-    }
+    const handleRemoveEducation = (education) => {
+        setEducations(educations.filter(edu => edu.id !== education.id));
+    };
 
-    const handleAddSkill = (newSkill) => {
+    const handleSkillChange = (updatedSkill) => {
+        setSkills(prevSkills => prevSkills.map(skill => skill.id == updatedSkill.id ? updatedSkill : skill));
+    };
+
+    const handleAddSkill = () => {
         setSkills([
             ...skills,
-            newSkill
+            {
+                id: nextSkillId,
+                name: ''
+            }
         ]);
+
+        setNextSkillId(nextSkillId => nextSkillId + 1);
     }
+
+    const handleRemoveSkill = (skill) => {
+        setSkills(skills.filter(s => s.id !== skill.id));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -113,9 +142,9 @@ function Form() {
                 <hr />
                 <ConatctForm handleContactChange={handleContactChange}/>
                 <SumaryForm handleSummaryChange={handleSummaryChange}/>
-                <ExperienceForm experiences={experiences} handleExperienceChange={handleExperienceChange} handleAddExperience={handleAddExperience}/>
-                <EducationForm educations={educations} handleEducationChange={handleEducationChange} handleAddEducation={handleAddEducation}/>
-                <SkillsForm skills={skills} handleSkillChange={handleSkillChange} handleAddSkill={handleAddSkill}/>
+                <ExperienceForm experiences={experiences} handleExperienceChange={handleExperienceChange} handleAddExperience={handleAddExperience} handleRemoveExperience={handleRemoveExperience}/>
+                <EducationForm educations={educations} handleEducationChange={handleEducationChange} handleAddEducation={handleAddEducation} handleRemoveEducation={handleRemoveEducation}/>
+                <SkillsForm skills={skills} handleSkillChange={handleSkillChange} handleAddSkill={handleAddSkill} handleRemoveSkill={handleRemoveSkill}/>
                 <hr />
                 <button type="submit" className="btn btn-primary">Generate Profile</button>
                 {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
