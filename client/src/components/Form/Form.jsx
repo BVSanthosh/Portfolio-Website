@@ -1,31 +1,36 @@
+/**
+ * The form component
+ */
+
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ConatctForm from './ContactForm.jsx';
-import EducationForm from './EducationForm.jsx';
-import ExperienceForm from './ExperienceForm.jsx';
-import SkillsForm from './SkillsForm.jsx';
-import SumaryForm from './SummaryForm.jsx';
+import ConatctForm from './ContactForm.jsx';   //imports the Contact Information section component  
+import EducationForm from './EducationForm.jsx';   //imports the Education section component
+import ExperienceForm from './ExperienceForm.jsx';   //imports the Experience section component
+import SkillsForm from './SkillsForm.jsx';   //imports the skills section component
+import SumaryForm from './SummaryForm.jsx';   //imports the summary section component
 
 function Form() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-    const [contactInfo, setContactInfo] = useState({
-        fullName: '',  
+    const [contactInfo, setContactInfo] = useState({   //state for managing the contact info section
+        firstName: '',  
+        lastName: '',
         email: '',
         phoneNumber: '',  
         linkedin: '',
     });
-    const [summary, setSummary] = useState('');
-    const [experiences, setExperiences] = useState([]);
-    const [educations, setEducations] = useState([]);
-    const [skills, setSkills] = useState([]);
-    const [nextExpId, setNextExpId] = useState(0);
-    const [nextEduId, setNextEduId] = useState(0);
-    const [nextSkillId, setNextSkillId] = useState(0);
+    const [summary, setSummary] = useState('');   //state for manging the summary section
+    const [experiences, setExperiences] = useState([]);   //state for managing the experience section
+    const [educations, setEducations] = useState([]);   //state for managing the education section
+    const [skills, setSkills] = useState([]);   //state for managing the skills section
+    const [nextExpId, setNextExpId] = useState(0);   //state for manging the id of each experience entry
+    const [nextEduId, setNextEduId] = useState(0);   //state for manging the id of each education entry
+    const [nextSkillId, setNextSkillId] = useState(0);   //state for manging the id of each skill entry
 
-    const formData = {
+    const formData = {   //the entire form data passed as the body in a post request
         contactInfo: contactInfo,
         summary: summary,
         experience: experiences,
@@ -33,6 +38,7 @@ function Form() {
         skills: skills
     };
 
+    //event handler for updating the input fields in the contact info section
     const handleContactChange = (e) => {
         const { name, value } = e.target;
 
@@ -42,14 +48,17 @@ function Form() {
         }));
     }
 
+    //event handler for updating textarea for the summary section
     const handleSummaryChange = (e) => {
         setSummary(e.target.value);
     }
 
+    //event handler for updating the input fields of the experience section
     const handleExperienceChange  = (updatedExperience) => {
         setExperiences(prevExperience => prevExperience.map(exp => exp.id == updatedExperience.id ? updatedExperience : exp));
     };
-    
+
+    //event handler for adding an experience sub-section
     const handleAddExperience = () => {
     
         setExperiences([
@@ -68,14 +77,17 @@ function Form() {
         setNextExpId(nextExpId => nextExpId + 1);
     };
 
+    //event handler for removing an experience sub-section
     const handleRemoveExperience = (experience) => {
         setExperiences(experiences.filter(exp => exp.id !== experience.id));
     };
 
+    //event handler for updating the input fields of the education section
     const handleEducationChange = (updatedEducation) => {
         setEducations(prevEducations => prevEducations.map(edu => edu.id == updatedEducation.id ? updatedEducation : edu));
     };
 
+    //event handler for adding an education sub-section
     const handleAddEducation = () => {
         setEducations([
             ...educations,
@@ -93,14 +105,17 @@ function Form() {
         setNextEduId(nextEduId => nextEduId + 1);
     };
 
+    //event handler for removing an education sub-section
     const handleRemoveEducation = (education) => {
         setEducations(educations.filter(edu => edu.id !== education.id));
     };
 
+    //event handler for updating the input fields of the skills sub-section
     const handleSkillChange = (updatedSkill) => {
         setSkills(prevSkills => prevSkills.map(skill => skill.id == updatedSkill.id ? updatedSkill : skill));
     };
 
+    //event handler for adding a skill sub-section
     const handleAddSkill = () => {
         setSkills([
             ...skills,
@@ -113,15 +128,23 @@ function Form() {
         setNextSkillId(nextSkillId => nextSkillId + 1);
     }
 
+    //event handler for removing a skill sub-section
     const handleRemoveSkill = (skill) => {
         setSkills(skills.filter(s => s.id !== skill.id));
     };
 
-    const handleSubmit = (e) => {
+    //event handler for handling form submission
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = axios.post('http://localhost:5000/api/v1/user/formfillup', formData); 
+            const token = localStorage.getItem('token');   //gets the JWT token
+            const header = {   //sets up te header to contain the JWT
+                headers : {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            const response = await axios.post('http://localhost:5000/api/v1/user/form-fillup', formData, header);   //makes a post request with the form data and JWT token
 
             if (response.data.success) {
                 console.log('Form filled up successfully:', response.data);
@@ -149,11 +172,6 @@ function Form() {
                 <button type="submit" className="btn btn-primary">Generate Profile</button>
                 {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
             </form>
-            <p>Contact Info: {JSON.stringify(contactInfo, null, 2)}</p>
-            <p>Summary: {JSON.stringify(summary, null, 2)}</p>
-            <p>Experience: {JSON.stringify(experiences, null, 2)}</p>
-            <p>Education: {JSON.stringify(educations, null, 2)}</p>
-            <p>Skills: {JSON.stringify(skills, null, 2)}</p>
         </div>
     );
 }

@@ -1,17 +1,32 @@
+/**
+ * 
+ */
+
 function ContactForm({ handleContactChange }) {
 
     return (
         <div className="container mt-5">
             <h4>Contact Information</h4>
             <div className="mb-3">
-                <label htmlFor="full-name" className="form-label"> 
-                    Full Name: 
+                <label htmlFor="first-name" className="form-label"> 
+                    First Name: 
                 </label>
-                
                 <input
                     type="text"
-                    name="fullName"  
-                    id="full-name"
+                    name="firstName"  
+                    id="first-name"
+                    onChange={handleContactChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="last-name" className="form-label"> 
+                    Last Name: 
+                </label>
+                <input
+                    type="text"
+                    name="lastName"  
+                    id="last-name"
                     onChange={handleContactChange}
                     required
                 />

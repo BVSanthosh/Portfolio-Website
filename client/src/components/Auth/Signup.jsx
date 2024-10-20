@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
 function Signup() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-    const [signupForm, setSignupForm] = useState({
+    const [signupForm, setSignupForm] = useState({    //state for managing the signup info 
         firstName: '',
         lastName: '',
         email: '',

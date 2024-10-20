@@ -1,5 +1,10 @@
+/**
+ * Experience item Component
+ */
+
 function ExperienceSection({experience, handleExperienceChange}) {
 
+    //event handler for reading the user input
     const handleChange = (e) => {
         const { name, value } = e.target;
         const updatedExperience = {

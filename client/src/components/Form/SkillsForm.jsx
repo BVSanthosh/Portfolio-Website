@@ -8,11 +8,10 @@ function SkillsForm({ skills, handleSkillChange, handleAddSkill, handleRemoveSki
             {skills.map((skill) => (
                 <div key={skill.id} className="mb-3">
                     <SkillSection 
-                        key={skill.id}
                         skill={skill}
                         handleSkillChange={handleSkillChange}
                     />
-                    <button key={skill.id} className="btn btn-primary" type="button" onClick={() => handleRemoveSkill(skill)}>
+                    <button className="btn btn-primary" type="button" onClick={() => handleRemoveSkill(skill)}>
                         Delete Skill
                     </button>
                 </div>

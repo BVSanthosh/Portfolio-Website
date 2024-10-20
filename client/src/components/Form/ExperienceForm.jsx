@@ -7,15 +7,14 @@ function ExperienceForm({ experiences, handleExperienceChange, handleAddExperien
             <h4>Work Experience</h4>
             {experiences.map(exp => (
                 <div key={exp.id} className="mb-3">
-                <ExperienceSection 
-                    key={exp.id} 
-                    experience={exp}
-                    handleExperienceChange={handleExperienceChange} 
-                />
-                <button key={exp.id} className="btn btn-primary" type="button" onClick={() => handleRemoveExperience(exp)}>
-                    Delete Experience
-                </button>
-            </div>
+                    <ExperienceSection 
+                        experience={exp}
+                        handleExperienceChange={handleExperienceChange} 
+                    />
+                    <button className="btn btn-primary" type="button" onClick={() => handleRemoveExperience(exp)}>
+                        Delete Experience
+                    </button>
+                </div>
             ))}
             <button className="btn btn-primary" type="button" onClick={handleAddExperience}>
                 Add Experience

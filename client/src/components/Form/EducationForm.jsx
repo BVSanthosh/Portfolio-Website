@@ -8,11 +8,10 @@ function EducationForm({ educations, handleEducationChange, handleAddEducation, 
             {educations.map((edu) => (
                 <div key={edu.id} className="mb-3"> 
                     <ExperienceSection 
-                        key={edu.id}
                         education={edu}
                         handleEducationChange={handleEducationChange}
                     />
-                    <button key={edu.id} className="btn btn-primary" type="button" onClick={() => handleRemoveEducation(edu)}>
+                    <button className="btn btn-primary" type="button" onClick={() => handleRemoveEducation(edu)}>
                         Delete Education
                     </button>
                 </div>
