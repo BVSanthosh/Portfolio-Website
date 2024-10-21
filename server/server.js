@@ -7,6 +7,7 @@ const express = require('express');
 
 const { connectDB } = require('./src/config/database');
 const authRouter = require('./src/routes/authRoute');  //imports the authentication routes
+const formRouter = require('./src/routes/formRoute');  //imports the form route
 const app = express();
 
 app.use(cors());  //enables Cross-Origin Resource Sharing
@@ -20,6 +21,7 @@ connectDB();  //conencts to the MongoDB database
 app.use(express.json());  //uses a default middleware which parses JSON data from incoming requests
 
 app.use('/api/v1/user', authRouter);  //sets up the authentication routes (signup and login)
+app.use('/api/v1/user', formRouter)   //sets up the form route
 
 app.get("/", (req, res) => {  //root route
     res.send("Welcome to Project-0925");

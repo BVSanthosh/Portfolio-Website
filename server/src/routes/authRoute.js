@@ -3,7 +3,7 @@
 */
 
 const express = require('express');
-const router = express.Router();
+const router = express.Router();   //gets the router for login and signup end-points
 
 const { signup, login } = require('../controllers/authController');  //imports the controllers to handle user authentication requests
 

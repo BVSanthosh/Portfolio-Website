@@ -2,12 +2,12 @@
     Contains the controllers for authentication (login and signup)
 */
 
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const User = require("../models/userModel")  //imports the database model used to store user credentials
+const User = require('../models/userModel')  //imports the user model
 
-//signup controller which contains the logic for handling signup requests
+//signup controller which contains the logic for handling signup requests and saves the user signup details as a document in the User model
 exports.signup = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
@@ -15,7 +15,8 @@ exports.signup = async (req, res) => {
         if (!firstName || !lastName || !email || !password) {
             return res.status(400).json({
                 success: false,
-                message: "Missing user credentials"});
+                message: 'Missing user credentials'
+            });
         }
 
         const existingUser = await User.findOne({ email });
@@ -23,10 +24,9 @@ exports.signup = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({
                 success: false,
-                message: "User already exists"});
+                message: 'User already exists'});
         }
 
-        console.log("test");
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds)
 
@@ -52,7 +52,7 @@ exports.signup = async (req, res) => {
         console.error(`Error creating new user: ${error}`);
         return res.status(500).json({
             success: false,
-            message: "An unexpected error occurred"
+            message: 'An unexpected error occurred while signing up'
         });
     }
 }
@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
         if (!email || !password){
             return res.status(400).json({
                 success: false,
-                message: "Missing user credentials"
+                message: 'Missing user credentials'
             });
         }
 
@@ -74,7 +74,7 @@ exports.login = async (req, res) => {
         if (!existingUser){
             return res.status(401).json({
                 success: false,
-                message: "Invalid usernamd or password"
+                message: 'Invalid usernamd or password'
             })
         }
 
@@ -83,7 +83,7 @@ exports.login = async (req, res) => {
         if (!passwordMatch){
             return res.status(401).json({
                 success: false,
-                message: "Invalid username or password"
+                message: 'Invalid username or password'
             });
         }
 
@@ -96,13 +96,13 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign(
             payload,
-            process.env.SECRET_KEY || "1234!@#%<{*&)",
-            {expiresIn: "1h"}
+            process.env.SECRET_KEY || '1234!@#%<{*&)',
+            {expiresIn: '1h'}
         );
 
         return res.status(200).json({
             success: true,
-            message: "User logged in successfully",
+            message: 'User logged in successfully',
             data: {
                 firstName: existingUser.firstName,
                 lastName: existingUser.lastName,
@@ -115,7 +115,7 @@ exports.login = async (req, res) => {
         console.error(`Error creating new user: ${error}`);
         return res.status(500).json({
             success: false,
-            message: "An unexpected error occurred"
+            message: 'An unexpected error occurred while logging in'
         });
     }
 }

@@ -8,8 +8,8 @@ import { useNavigate, Link} from 'react-router-dom';
 
 function Login() {
     const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState('');
-    const [loginForm, setloginForm] = useState({
+    const [errorMessage, setErrorMessage] = useState('');  
+    const [loginForm, setLoginForm] = useState({    //state for managing the login info
         email: '',
         password: ''
     });
@@ -18,7 +18,7 @@ function Login() {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setloginForm((prevData) => ({
+        setLoginForm((prevData) => ({
             ...prevData,
             [name]: value
         }));
@@ -33,7 +33,8 @@ function Login() {
 
             if (response.data.success) {
                 console.log('Login successful:', response.data);
-                navigate('/form');
+                localStorage.setItem('token', response.data.token);    //stores the JWT in LocalStorage
+                navigate('/form');   //navigates to the form page after successfully logining in
             } else {
                 setErrorMessage('Login failed. Please check your email and password.');
             }
@@ -52,7 +53,7 @@ function Login() {
                         Email:
                     </label>
                     <input 
-                        type="text"
+                        type="email"
                         id="email" 
                         name="email"
                         value={loginForm.email}

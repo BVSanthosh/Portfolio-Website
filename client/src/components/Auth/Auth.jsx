@@ -1,10 +1,10 @@
 /**
- * The Home component
+ * The parent component for the Login and Signup components
  */
 
 import { useNavigate } from 'react-router-dom'; 
 
-function Home() {
+function Auth() {
     const navigate = useNavigate();
 
     //event handler for navigating to the signup page
@@ -32,4 +32,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default Auth;
