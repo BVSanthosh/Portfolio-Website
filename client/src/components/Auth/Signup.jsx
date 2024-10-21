@@ -16,6 +16,36 @@ function Signup() {
         password: ''
     });
 
+    //function to ensure that the input is valid
+    const validateInput= () => {
+        const name_regex = /^[a-zA-Z][a-zA-Z'-]*(\s[a-zA-Z][a-zA-Z'-]*)*$|^[a-zA-Z][a-zA-Z'-]*(\s[A-Z][a-zA-Z'-]*)*$/
+        const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s)[A-Za-z\d!@#$%^&*]{8,}$/;
+        
+        if (!name_regex.test(signupForm.firstName)) {
+            setErrorMessage('Invalid first name.');
+            return false;
+        }
+
+        if (!name_regex.test(signupForm.lastName)) {
+            setErrorMessage('Invalid last name.');
+            return false;
+        }
+
+        if (!password_regex.test(signupForm.password)) {
+            setErrorMessage(
+                'Invalid Passowrd. Please ensure that the password ' +
+                'is at least 8 characters long, ' +
+                'contains at least one uppercase letter, ' +
+                'contains at least one lowercase letter, ' +
+                'contains at least one number, ' +
+                'contains no whitespace'
+            );
+            return false;
+        }
+
+        return true;
+    };
+
     //event handler for updating the input fields in the form to show user input
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,11 +54,15 @@ function Signup() {
             ...prevData,
             [name]: value
         }));
-    }
+    };
 
     //event handler for submitting the signup form data to the server
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateInput()) {
+            return;
+        }
         
         try {
             const response = await axios.post('http://localhost:5000/api/v1/user/signup', signupForm);  //establishes a http connection to the specified endpoint
