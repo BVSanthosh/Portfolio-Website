@@ -1,7 +1,7 @@
 /**
- * Profile Component
+ * Portfolio Component
  */
-function Profile() {
+function Portfolio() {
 
     return (
         <div className="container mt-5">
@@ -10,4 +10,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default Portfolio;

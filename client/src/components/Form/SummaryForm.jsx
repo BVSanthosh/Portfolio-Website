@@ -1,3 +1,7 @@
+/**
+ * Summary Component
+ */
+
 function SummaryForm({ handleSummaryChange }) {
 
     return (

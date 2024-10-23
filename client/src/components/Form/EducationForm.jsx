@@ -1,3 +1,7 @@
+/**
+ * Education List Component
+ */
+
 import ExperienceSection from './EducationSection.jsx';
 
 function EducationForm({ educations, handleEducationChange, handleAddEducation, handleRemoveEducation }) {
