@@ -1,4 +1,10 @@
+/**
+ * Education item Component
+ */
+
 function ExperienceSection({ education, handleEducationChange }) {
+    
+    //event handler for reading the user input
     const handleChange = (e) => {
         const { name, value } = e.target;
         const updatedEducation = {

@@ -1,5 +1,10 @@
+/**
+ * Skill item Component
+ */
+
 function SkillSection({ skill, handleSkillChange }) {
 
+    //event handler for reading the user input
     const handleChange = (e) => {
         const value = e.target.value;
         const updatedSkill = {

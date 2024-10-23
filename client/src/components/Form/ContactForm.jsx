@@ -1,5 +1,5 @@
 /**
- * 
+ * Contact Information Component
  */
 
 function ContactForm({ handleContactChange }) {
@@ -51,6 +51,18 @@ function ContactForm({ handleContactChange }) {
                     type="tel"  
                     name="phoneNumber"  
                     id="phone-number"
+                    onChange={handleContactChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="location" className="form-label"> 
+                    Location:
+                </label>
+                <input
+                    type="text"
+                    name="location"
+                    id="location"
                     onChange={handleContactChange}
                     required
                 />

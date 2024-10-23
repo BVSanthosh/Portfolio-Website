@@ -1,3 +1,7 @@
+/**
+ * Experience List Component
+ */
+
 import ExperienceSection from './ExperienceSection.jsx';
 
 function ExperienceForm({ experiences, handleExperienceChange, handleAddExperience, handleRemoveExperience }) {

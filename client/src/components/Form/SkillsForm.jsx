@@ -1,3 +1,7 @@
+/**
+ * Skills List Component
+ */
+
 import SkillSection from './SkillSection.jsx';
 
 function SkillsForm({ skills, handleSkillChange, handleAddSkill, handleRemoveSkill }) {
