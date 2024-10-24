@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/userModel')  //imports the user model
+//const { sendVerificationEmail } = require('../utils/emailSender');  //imports the function to send the verification email
 
 //signup controller which contains the logic for handling signup requests and saves the user signup details as a document in the User model
 exports.signup = async (req, res) => {
@@ -35,13 +36,18 @@ exports.signup = async (req, res) => {
             lastName,
             email,
             password: hashedPassword,
+            verified: false
         });
 
         await newUser.save();
 
+        //const verificationToken = jwt.sign({userId: newUser._id}, process.env.SECRET_KEY, {expireIn: '1h'});
+    
+        //await sendVerificationEmail(email, verificationToken);
+
         return res.status(201).json({
             success: true,
-            message: 'User sign up successful',
+            message: 'User sign up successful, please verify your email',
             data: {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName
@@ -117,5 +123,47 @@ exports.login = async (req, res) => {
             success: false,
             message: 'An unexpected error occurred while logging in'
         });
+    }
+}
+
+exports.verifyEmail = async (req, res) => {
+    const verificationToken = req.param.token;
+
+    if (!verificationToken) {
+        return res.status(400).json({
+            success: false,
+            message: 'Verification token missing'
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(verificationToken, process.env.SECRET_KEY);
+        const userId = decoded.userId;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        if (!user.verified) {
+            user.verified = true;
+            await user.save();
+
+            return res.status(200).json({
+                success: true,
+                message: 'Email verification successful, you can now log in.'
+            });
+        } else {
+            return res.status(400).json({
+                success: true,
+                message: 'This email has already been verified. You can log in now.'
+            });
+        }
+    } catch(error) {
+        console.error(`Error verifiying email: ${error}`);
+        res.status(400).send('Invalid or expired verification token.');
     }
 }
