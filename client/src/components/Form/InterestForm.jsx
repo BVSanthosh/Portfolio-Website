@@ -1,27 +1,28 @@
 /**
- * Interest item Component
+ * Interest Component
  */
 
-function InterestSection({ interest, handleInterestChange }) {
+function InterestForm({ item, handleItemChange }) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const value = e.target.value;
         const updatedInterest = {
-            ...interest,
+            ...item,
             interest: value
         };
 
-        handleInterestChange(updatedInterest);
+        handleItemChange(updatedInterest);
     };
 
     return(
         <div className="mb-3">
             <input
                 type="text"
-                id={`interest-${interest.id}`}
+                aria-label="Interest"
+                id={`interest-${item.id}`}
                 name="interest"
-                value={interest.interest}
+                value={item.interest}
                 onChange={handleChange}
                 required
             />
@@ -29,4 +30,4 @@ function InterestSection({ interest, handleInterestChange }) {
     );
 }
 
-export default InterestSection;
+export default InterestForm;

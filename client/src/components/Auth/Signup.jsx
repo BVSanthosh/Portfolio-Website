@@ -19,7 +19,8 @@ function Signup() {
     //function to ensure that the input is valid
     const validateInput= () => {
         const name_regex = /^[a-zA-Z][a-zA-Z'-]*(\s[a-zA-Z][a-zA-Z'-]*)*$|^[a-zA-Z][a-zA-Z'-]*(\s[A-Z][a-zA-Z'-]*)*$/
-        const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])(?!.*\s)[A-Za-z\d!@#$%^&*]{8,}$/;
+        const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_.])(?!.*\s)[A-Za-z\d!@#$%^&*_.]{8,}$/;
+
         
         if (!name_regex.test(signupForm.firstName)) {
             setErrorMessage('Invalid first name.');

@@ -1,73 +1,74 @@
 /**
- * Publication item Component
+ * Certification item Component
  */
 
-function PublicationSection({ publication, handlePublicationChange }) {
+function CertificationForm({item, handleItemChange}) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const { name, value } = e.target;
-        const updatedPublication = {
-            ...publication,
+        const updatedCertificate = {
+            ...item,
             [name]: value
         };
 
-        handlePublicationChange(updatedPublication);
+        handleItemChange(updatedCertificate);
     };
 
     return (
         <div className="container mt-5">
             <div className="mb-3">
-                <label htmlFor={`title-${publication.id}`} className="form-label"> 
-                    Publication Title: 
+                <label htmlFor={`title-${item.id}`} className="form-label"> 
+                    Certification Title: 
                 </label>
                 
                 <input
                     type="text"
                     name="title"  
-                    id={`title-${publication.id}`}
-                    value={publication.title}
+                    id={`title-${item.id}`}
+                    value={item.title}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor={`company-name-${publication.id}`} className="form-label"> 
-                    Date Published: 
-                </label>
-                
-                <input
-                    type="date"
-                    name="datePublished"  
-                    id={`company-name-${publication.id}`}
-                    value={publication.datePublished}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor={`link-${publication.id}`} className="form-label"> 
-                    Link: 
+                <label htmlFor={`org-${item.id}`} className="form-label"> 
+                    Issuing Organisation: 
                 </label>
                 
                 <input
                     type="text"
-                    name="link"  
-                    id={`link-${publication.id}`}
-                    value={publication.link}
+                    name="organisation"  
+                    id={`org-${item.id}`}
+                    value={item.organisation}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor={`description-${publication.id}`} className="form-label"> 
+                <label htmlFor={`earned-date-${item.id}`} className="form-label"> 
+                    Earned Date: 
+                </label>
+                
+                <input
+                    type="date"
+                    name="earnedDate"  
+                    id={`earned-date-${item.id}`}
+                    value={item.earnedDate}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`description-${item.id}`} className="form-label"> 
                     Description: 
                 </label>
                 <br/>
                 <textarea
                     name="description"
-                    id={`description-${publication.id}`}
-                    value={publication.description}
+                    aria-label="Description"
+                    id={`description-${item.id}`}
+                    value={item.description}
                     onChange={handleChange}
                     rows="4" 
                     cols="50"
@@ -78,4 +79,4 @@ function PublicationSection({ publication, handlePublicationChange }) {
     );
 }
 
-export default PublicationSection;
+export default CertificationForm;

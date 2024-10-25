@@ -33,7 +33,6 @@ function Login() {
 
             if (response.data.success) {
                 console.log('Login successful:', response.data);
-                localStorage.setItem('token', response.data.token);    //stores the JWT in LocalStorage
                 navigate('/form');   //navigates to the form page after successfully logining in
             } else {
                 setErrorMessage('Login failed. Please check your email and password.');

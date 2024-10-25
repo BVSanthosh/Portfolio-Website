@@ -1,28 +1,108 @@
 /**
- * Experience List Component
+ * Experience item Component
  */
 
-import ExperienceSection from './ExperienceSection.jsx';
+function ExperienceForm({item, handleItemChange}) {
 
-function ExperienceForm({ experiences, handleExperienceChange, handleAddExperience, handleRemoveExperience }) {
+    //event handler for reading the user input
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        const updatedExperience = {
+            ...item,
+            [name]: value
+        };
+
+        handleItemChange(updatedExperience);
+    };
 
     return (
         <div className="container mt-5">
-            <h4>Work Experience</h4>
-            {experiences.map(exp => (
-                <div key={exp.id} className="mb-3">
-                    <ExperienceSection 
-                        experience={exp}
-                        handleExperienceChange={handleExperienceChange} 
-                    />
-                    <button className="btn btn-primary" type="button" onClick={() => handleRemoveExperience(exp)}>
-                        Delete Experience
-                    </button>
-                </div>
-            ))}
-            <button className="btn btn-primary" type="button" onClick={handleAddExperience}>
-                Add Experience
-            </button>
+            <div className="mb-3">
+                <label htmlFor={`job-title-${item.id}`} className="form-label"> 
+                    Job Title: 
+                </label>
+                
+                <input
+                    type="text"
+                    name="jobTitle"  
+                    id={`job-title-${item.id}`}
+                    value={item.jobTitle}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`company-name-${item.id}`} className="form-label"> 
+                    Company Name: 
+                </label>
+                
+                <input
+                    type="text"
+                    name="companyName"  
+                    id={`company-name-${item.id}`}
+                    value={item.companyName}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`location-${item.id}`} className="form-label"> 
+                    Location: 
+                </label>
+                
+                <input
+                    type="text"
+                    name="location"  
+                    id={`location-${item.id}`}
+                    value={item.location}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`start-date-${item.id}`} className="form-label"> 
+                    Start Date: 
+                </label>
+                
+                <input
+                    type="date"
+                    name="startDate"  
+                    id={`start-date-${item.id}`}
+                    value={item.startDate}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`start-date-${item.id}`} className="form-label"> 
+                    End Date: 
+                </label>
+                
+                <input
+                    type="date"
+                    name="endDate"  
+                    id={`end-date-${item.id}`}
+                    value={item.endDate}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`achievements-${item.id}`} className="form-label"> 
+                    Achievements: 
+                </label>
+                <br/>
+                <textarea
+                    name="achievements"
+                    aria-label="Achievements"
+                    id={`achievements-${item.id}`}
+                    value={item.achievements}
+                    onChange={handleChange}
+                    rows="4" 
+                    cols="50"
+                    required
+                />
+            </div>
         </div>
     );
 }

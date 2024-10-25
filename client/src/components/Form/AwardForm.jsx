@@ -2,72 +2,72 @@
  * Award item Component
  */
 
-function AwardSection({ award, handleAwardChange }) {
+function AwardForm({ item, handleItemChange }) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const { name, value } = e.target;
         const updatedAward = {
-            ...award,
+            ...item,
             [name]: value
         };
 
-        handleAwardChange(updatedAward);
+        handleItemChange(updatedAward);
     };
 
     return (
         <div className="container mt-5">
             <div className="mb-3">
-                <label htmlFor={`title-${award.id}`} className="form-label"> 
+                <label htmlFor={`title-${item.id}`} className="form-label"> 
                     Award Title: 
                 </label>
                 
                 <input
                     type="text"
                     name="title"  
-                    id={`title-${award.id}`}
-                    value={award.title}
+                    id={`title-${item.id}`}
+                    value={item.title}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor={`organisation-${award.id}`} className="form-label"> 
+                <label htmlFor={`organisation-${item.id}`} className="form-label"> 
                     Organisation: 
                 </label>
                 
                 <input
                     type="text"
                     name="organisation"  
-                    id={`organisation-${award.id}`}
-                    value={award.organisation}
+                    id={`organisation-${item.id}`}
+                    value={item.organisation}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor={`date-awarded-${award.id}`} className="form-label"> 
+                <label htmlFor={`date-awarded-${item.id}`} className="form-label"> 
                     Date Awarded: 
                 </label>
                 
                 <input
                     type="date"
                     name="dateAwarded"  
-                    id={`date-awarded-${award.id}`}
-                    value={award.dateAwarded}
+                    id={`date-awarded-${item.id}`}
+                    value={item.dateAwarded}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor={`description-${award.id}`} className="form-label"> 
+                <label htmlFor={`description-${item.id}`} className="form-label"> 
                     Description: 
                 </label>
                 <br/>
                 <textarea
                     name="description"
-                    id={`description-${award.id}`}
-                    value={award.description}
+                    id={`description-${item.id}`}
+                    value={item.description}
                     onChange={handleChange}
                     rows="4" 
                     cols="50"
@@ -78,4 +78,4 @@ function AwardSection({ award, handleAwardChange }) {
     );
 }
 
-export default AwardSection;
+export default AwardForm;
