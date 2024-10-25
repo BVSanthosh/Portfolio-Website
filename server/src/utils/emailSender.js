@@ -8,7 +8,7 @@ exports.sendVerificationEmail = async (userEmail, verificationToken) => {
         pass: process.env.PASS,
        },
     });
-
+    
     const verificationUrl = `http://localhost:5000/api/v1/user/verif?token=${verificationToken}`;
 
     const mailOptions = {
