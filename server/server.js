@@ -1,6 +1,7 @@
 /*
  *   Main server file which acts as the entry point for all incoming client requests.
 */
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
@@ -10,7 +11,12 @@ const authRouter = require('./src/routes/authRoute');  //imports the authenticat
 const formRouter = require('./src/routes/formRoute');  //imports the form route
 const app = express();
 
-app.use(cors());  //enables Cross-Origin Resource Sharing
+app.use(cookieParser());  //middleware that makes parsing cookies easier
+
+app.use(cors({    //enables Cross-Origin Resource Sharing
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));  
 
 dotenv.config();  //reads the environment variables stored in .env
 

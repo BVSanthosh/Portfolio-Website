@@ -102,9 +102,16 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign(
             payload,
-            process.env.SECRET_KEY || '1234!@#%<{*&)',
+            process.env.SECRET_KEY,
             {expiresIn: '1h'}
         );
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'Lax',
+            maxAge: 3600000
+        });
 
         return res.status(200).json({
             success: true,
@@ -113,8 +120,7 @@ exports.login = async (req, res) => {
                 firstName: existingUser.firstName,
                 lastName: existingUser.lastName,
                 email: existingUser.email
-            },
-            token: token
+            }
         });
 
     } catch(error) {
