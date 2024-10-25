@@ -1,28 +1,94 @@
 /**
- * Volunteer Experience List Component
+ * Volunteer Experience Component
  */
 
-import VolunteerSection from './VolunteerSection.jsx';
+function VolunteerForm({ item, handleItemChange }) {
 
-function VolunteerForm({ volunteerExps, handleVolunteerExpChange, handleAddVolunteerExp, handleRemoveVolunteerExp }) {
+    //event handler for reading the user input
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        const updatedVolunteerExp = {
+            ...item,
+            [name]: value
+        };
+
+        handleItemChange(updatedVolunteerExp);
+    };
 
     return (
         <div className="container mt-5">
-            <h4>Volunteer Experience</h4>
-            {volunteerExps.map(vol => (
-                <div key={vol.id} className="mb-3">
-                    <VolunteerSection 
-                        volunteerExp={vol}
-                        handleVolunteerExpChange={handleVolunteerExpChange} 
-                    />
-                    <button className="btn btn-primary" type="button" onClick={() => handleRemoveVolunteerExp(vol)}>
-                        Delete Volunteer Experience
-                    </button>
-                </div>
-            ))}
-            <button className="btn btn-primary" type="button" onClick={handleAddVolunteerExp}>
-                Add Volunteer Experience
-            </button>
+            <div className="mb-3">
+                <label htmlFor={`position-${item.id}`} className="form-label"> 
+                    Position: 
+                </label>
+                
+                <input
+                    type="text"
+                    name="position"  
+                    id={`position-${item.id}`}
+                    value={item.position}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`organisation-${item.id}`} className="form-label"> 
+                    Organisation: 
+                </label>
+                
+                <input
+                    type="text"
+                    name="organisation"  
+                    id={`organisation-${item.id}`}
+                    value={item.organisation}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`start-date-${item.id}`} className="form-label"> 
+                    Start Date: 
+                </label>
+                
+                <input
+                    type="date"
+                    name="startDate"  
+                    id={`start-date-${item.id}`}
+                    value={item.startDate}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`end-date-${item.id}`} className="form-label"> 
+                    End Date: 
+                </label>
+                
+                <input
+                    type="date"
+                    name="endDate"  
+                    id={`end-date-${item.id}`}
+                    value={item.endDate}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor={`responsibilities-${item.id}`} className="form-label"> 
+                    Responsibilities: 
+                </label>
+                <br/>
+                <textarea
+                    name="responsibilities"
+                    aria-label="Responsibilities"
+                    id={`responsibilities-${item.id}`}
+                    value={item.responsibilities}
+                    onChange={handleChange}
+                    rows="4" 
+                    cols="50"
+                    required
+                />
+            </div>
         </div>
     );
 }

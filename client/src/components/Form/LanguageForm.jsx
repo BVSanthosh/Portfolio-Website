@@ -1,27 +1,28 @@
 /**
- * Language item Component
+ * Language Component
  */
 
-function LanguageSection({ language, handleLanguageChange }) {
+function LanguageForm({ item, handleItemChange }) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const value = e.target.value;
         const updatedLanguage = {
-            ...language,
+            ...item,
             language: value
         };
 
-        handleLanguageChange(updatedLanguage);
+        handleItemChange(updatedLanguage);
     };
 
     return(
         <div className="mb-3">
             <input
                 type="text"
-                id={`language-${language.id}`}
+                aria-label="Language"
+                id={`language-${item.id}`}
                 name="language"
-                value={language.language}
+                value={item.language}
                 onChange={handleChange}
                 required
             />
@@ -29,4 +30,4 @@ function LanguageSection({ language, handleLanguageChange }) {
     );
 }
 
-export default LanguageSection;
+export default LanguageForm;

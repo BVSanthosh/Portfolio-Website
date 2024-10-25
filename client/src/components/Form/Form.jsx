@@ -6,16 +6,17 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import AwardsForm from './AwardsForm.jsx';   //imports the awards section component
-import CertificationsForm from './CertificationsForm.jsx';   //imports the certifications section component
-import ConatctForm from './ContactForm.jsx';   //imports the Contact Information section component  
-import EducationForm from './EducationForm.jsx';   //imports the Education section component
-import ExperienceForm from './ExperienceForm.jsx';   //imports the Experience section component
-import InterestsForm from './InterestsForm.jsx';   //imports the interests section component
-import LanguagesForm from './LanguagesForm.jsx';   //imports the languages section component
-import ProjectsForm from './ProjectsForm.jsx';   //imports the projects section component
-import PublicationsForm from './PublicationsForm.jsx';   //imports the publications section component
-import SkillsForm from './SkillsForm.jsx';   //imports the skills section component
+import AwardForm from './AwardForm.jsx';   //imports the awards section component
+import CertificationForm from './CertificationForm.jsx';   //imports the certifications section component
+import ContactForm from './ContactForm.jsx';   //imports the Contact Information section component  
+import EducationForm from './EducationForm.jsx';
+import ExperienceForm from './ExperienceForm.jsx';
+import GenerateSections from './GenerateSections.jsx';
+import InterestForm from './InterestForm.jsx';   //imports the interests section component
+import LanguageForm from './LanguageForm.jsx';   //imports the languages section component
+import ProjectForm from './ProjectForm.jsx';   //imports the projects section component
+import PublicationForm from './PublicationForm.jsx';   //imports the publications section component
+import SkillForm from './SkillForm.jsx';
 import SumaryForm from './SummaryForm.jsx';   //imports the summary section component
 import VolunteerForm from './VolunteerForm.jsx';   //imports the volunteer section component
 
@@ -348,13 +349,7 @@ function Form() {
         e.preventDefault();
 
         try {
-            const token = localStorage.getItem('token');   //gets the JWT token
-            const header = {   //sets up te header to contain the JWT
-                headers : {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-            const response = await axios.post('http://localhost:5000/api/v1/user/form-fillup', formData, header);   //makes a post request with the form data and JWT token
+            const response = await axios.post('http://localhost:5000/api/v1/user/form-fillup', formData);   //makes a post request with the form data and JWT token
 
             if (response.data.success) {
                 console.log('Form filled up successfully:', response.data);
@@ -373,18 +368,18 @@ function Form() {
             <h2>Complete Your Portfolio</h2>
             <form onSubmit={handleSubmit}>
                 <hr />
-                <ConatctForm handleContactChange={handleContactChange}/>
+                <ContactForm handleContactChange={handleContactChange}/>
                 <SumaryForm handleSummaryChange={handleSummaryChange}/>
-                <ExperienceForm experiences={experiences} handleExperienceChange={handleExperienceChange} handleAddExperience={handleAddExperience} handleRemoveExperience={handleRemoveExperience}/>
-                <EducationForm educations={educations} handleEducationChange={handleEducationChange} handleAddEducation={handleAddEducation} handleRemoveEducation={handleRemoveEducation}/>
-                <SkillsForm skills={skills} handleSkillChange={handleSkillChange} handleAddSkill={handleAddSkill} handleRemoveSkill={handleRemoveSkill}/>
-                {toggleProj && <ProjectsForm projects={projects} handleProjectChange={handleProjectChange} handleAddProject={handleAddProject} handleRemoveProject={handleRemoveProject}/>}
-                {toggleCert && <CertificationsForm certificates={certificates} handleCertificateChange={handleCertificateChange} handleAddCertificate={handleAddCertificate} handleRemoveCertificate={handleRemoveCertificate}/>}
-                {togglePub && <PublicationsForm publications={publications} handlePublicationChange={handlePublicationChange} handleAddPublication={handleAddPublication} handleRemovePublication={handleRemovePublication}/>}
-                {toggleAward && <AwardsForm awards={awards} handleAwardChange={handleAwardChange} handleAddAward={handleAddAward} handleRemoveAward={handleRemoveAward}/>}
-                {toggleLang && <LanguagesForm languages={languages} handleLanguageChange={handleLanguageChange} handleAddLanguage={handleAddLanguage} handleRemoveLanguage={handleRemoveLanguage}/>}
-                {toggleVol && <VolunteerForm volunteerExps={volunteerExps} handleVolunteerExpChange={handleVolunteerExpChange} handleAddVolunteerExp={handleAddVolunteerExp} handleRemoveVolunteerExp={handleRemoveVolunteerExp}/>}
-                {toggleInt && <InterestsForm interests={interests} handleInterestChange={handleInterestChange} handleAddInterest={handleAddInterest} handleRemoveInterest={handleRemoveInterest}/>}
+                <GenerateSections Component={ExperienceForm} title={'Work Experience'} list={experiences} handleItemChange={handleExperienceChange} handleAddItem={handleAddExperience} handleRemoveItem={handleRemoveExperience}/>
+                <GenerateSections Component={EducationForm} title={'Education'} list={educations} handleItemChange={handleEducationChange} handleAddItem={handleAddEducation} handleRemoveItem={handleRemoveEducation}/>
+                <GenerateSections Component={SkillForm} title={'Skills'} list={skills} handleItemChange={handleSkillChange} handleAddItem={handleAddSkill} handleRemoveItem={handleRemoveSkill}/>
+                {toggleProj && <GenerateSections Component={ProjectForm} title={'Projects'} list={projects} handleItemChange={handleProjectChange} handleAddItem={handleAddProject} handleRemoveItem={handleRemoveProject}/>}
+                {toggleCert && <GenerateSections Component={CertificationForm} title={'Certifications'} list={certificates} handleItemChange={handleCertificateChange} handleAddItem={handleAddCertificate} handleRemoveItem={handleRemoveCertificate}/>}
+                {togglePub && <GenerateSections Component={PublicationForm} title={'Publications'} list={publications} handleItemChange={handlePublicationChange} handleAddItem={handleAddPublication} handleRemoveItem={handleRemovePublication}/>}
+                {toggleAward && <GenerateSections Component={AwardForm} title={'Awards'} list={awards} handleItemChange={handleAwardChange} handleAddItem={handleAddAward} handleRemoveItem={handleRemoveAward}/>}
+                {toggleLang && <GenerateSections Component={LanguageForm} title={'Languages'} list={languages} handleItemChange={handleLanguageChange} handleAddItem={handleAddLanguage} handleRemoveItem={handleRemoveLanguage}/>}
+                {toggleVol && <GenerateSections Component={VolunteerForm} title={'Volunteer Experience'} list={volunteerExps} handleItemChange={handleVolunteerExpChange} handleAddItem={handleAddVolunteerExp} handleRemoveItem={handleRemoveVolunteerExp}/>}
+                {toggleInt && <GenerateSections Component={InterestForm} title={'Hobbies and Interests'} list={interests} handleItemChange={handleInterestChange} handleAddItem={handleAddInterest} handleRemoveItem={handleRemoveInterest}/>}
                 <br />
                 <h3>Optional Sections</h3>
                 <button type="button" className="btn btn-primary" onClick={() => {

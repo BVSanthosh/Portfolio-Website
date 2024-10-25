@@ -11,6 +11,7 @@ function SummaryForm({ handleSummaryChange }) {
                 <textarea
                     id="summary"
                     name="summary"
+                    aria-label="Summary"
                     onChange={handleSummaryChange}
                     rows="4" 
                     cols="50"

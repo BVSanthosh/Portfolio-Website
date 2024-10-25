@@ -1,27 +1,28 @@
 /**
- * Skill item Component
+ * Skill Component
  */
 
-function SkillSection({ skill, handleSkillChange }) {
+function SkillForm({ item, handleItemChange }) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const value = e.target.value;
         const updatedSkill = {
-            ...skill,
+            ...item,
             name: value
         };
 
-        handleSkillChange(updatedSkill);
+        handleItemChange(updatedSkill);
     };
 
     return(
         <div className="mb-3">
             <input
                 type="text"
-                id={`skill-${skill.id}`}
+                aria-label="Skill"
+                id={`skill-${item.id}`}
                 name="skill"
-                value={skill.name}
+                value={item.name}
                 onChange={handleChange}
                 required
             />
@@ -29,4 +30,4 @@ function SkillSection({ skill, handleSkillChange }) {
     );
 }
 
-export default SkillSection;
+export default SkillForm;

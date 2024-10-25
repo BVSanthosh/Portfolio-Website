@@ -2,44 +2,45 @@
  * Project item Component
  */
 
-function ProjectSection({project, handleProjectChange}) {
+function ProjectForm({item, handleItemChange}) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const { name, value } = e.target;
         const updatedProject = {
-            ...project,
+            ...item,
             [name]: value
         };
 
-        handleProjectChange(updatedProject);
+        handleItemChange(updatedProject);
     };
 
     return (
         <div className="container mt-5">
             <div className="mb-3">
-                <label htmlFor={`project-title-${project.id}`} className="form-label"> 
+                <label htmlFor={`project-title-${item.id}`} className="form-label"> 
                     Project Title: 
                 </label>
                 
                 <input
                     type="text"
                     name="title"  
-                    id={`project-title-${project.id}`}
-                    value={project.title}
+                    id={`project-title-${item.id}`}
+                    value={item.title}
                     onChange={handleChange}
                     required
                 />
             </div>
             <div className="mb-3">
-                <label htmlFor={`achievements-${project.id}`} className="form-label"> 
+                <label htmlFor={`achievements-${item.id}`} className="form-label"> 
                     Achievements: 
                 </label>
                 <br/>
                 <textarea
                     name="achievements"
-                    id={`achievements-${project.id}`}
-                    value={project.achievements}
+                    aria-label="Achievements"
+                    id={`achievements-${item.id}`}
+                    value={item.achievements}
                     onChange={handleChange}
                     rows="4" 
                     cols="50"
@@ -50,4 +51,4 @@ function ProjectSection({project, handleProjectChange}) {
     );
 }
 
-export default ProjectSection;
+export default ProjectForm;
