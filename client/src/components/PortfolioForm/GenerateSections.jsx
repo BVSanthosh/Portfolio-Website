@@ -2,26 +2,28 @@
  *  Component for generating a given form section as a list
  */
 
+import Button from 'react-bootstrap/Button';
+
 function GenerateSections({ Component, title, list, handleItemChange, handleAddItem, handleRemoveItem }) {
 
     return (
-        <div className="container mt-5">
+        <>
             <h4>{title}</h4>
             {list.map(item => (
-                <div key={item.id} className="mb-3">
+                <div key={item.id} style={{ marginBottom: "1rem" }}>
                     <Component 
                         item={item}
                         handleItemChange={handleItemChange} 
                     />
-                    <button className="btn btn-primary" type="button" onClick={() => handleRemoveItem(item)}>
+                    <Button variant="outline-light" type="button" onClick={() => handleRemoveItem(item)}>
                         Delete {title}
-                    </button>
+                    </Button>
                 </div>
             ))}
-            <button className="btn btn-primary" type="button" onClick={handleAddItem}>
+            <Button variant="outline-light" type="button" onClick={handleAddItem}>
                 Add {title}
-            </button>
-        </div>
+            </Button>
+        </>
     );
 }
 
