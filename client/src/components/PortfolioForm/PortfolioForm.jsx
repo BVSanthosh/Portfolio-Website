@@ -4,6 +4,12 @@
 
 import axios from 'axios';
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Stack from 'react-bootstrap/Stack';
 import { useNavigate } from 'react-router-dom';
 
 import AwardForm from './AwardForm.jsx';   //imports the awards section component
@@ -20,7 +26,7 @@ import SkillForm from './SkillForm.jsx';
 import SumaryForm from './SummaryForm.jsx';   //imports the summary section component
 import VolunteerForm from './VolunteerForm.jsx';   //imports the volunteer section component
 
-function Form() {
+function PortfolioForm() {
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -31,7 +37,7 @@ function Form() {
         email: '',
         phoneNumber: '',  
         location: '',
-        linkedin: '',
+        linkedIn: '',
     });
     const [summary, setSummary] = useState('');   //state for manging the summary section
     const [experiences, setExperiences] = useState([]);   //state for managing the experience section
@@ -364,86 +370,136 @@ function Form() {
     }
 
     return (
-        <div className="container mt-5">
-            <h2>Complete Your Portfolio</h2>
-            <form onSubmit={handleSubmit}>
+        <Container fluid className="d-flex flex-column justify-content-center align-items-center">
+            <h2 className="text-center">Complete Your Portfolio</h2>
+            <Form onSubmit={handleSubmit}>
                 <hr />
-                <ContactForm handleContactChange={handleContactChange}/>
-                <SumaryForm handleSummaryChange={handleSummaryChange}/>
-                <GenerateSections Component={ExperienceForm} title={'Work Experience'} list={experiences} handleItemChange={handleExperienceChange} handleAddItem={handleAddExperience} handleRemoveItem={handleRemoveExperience}/>
-                <GenerateSections Component={EducationForm} title={'Education'} list={educations} handleItemChange={handleEducationChange} handleAddItem={handleAddEducation} handleRemoveItem={handleRemoveEducation}/>
-                <GenerateSections Component={SkillForm} title={'Skills'} list={skills} handleItemChange={handleSkillChange} handleAddItem={handleAddSkill} handleRemoveItem={handleRemoveSkill}/>
-                {toggleProj && <GenerateSections Component={ProjectForm} title={'Projects'} list={projects} handleItemChange={handleProjectChange} handleAddItem={handleAddProject} handleRemoveItem={handleRemoveProject}/>}
-                {toggleCert && <GenerateSections Component={CertificationForm} title={'Certifications'} list={certificates} handleItemChange={handleCertificateChange} handleAddItem={handleAddCertificate} handleRemoveItem={handleRemoveCertificate}/>}
-                {togglePub && <GenerateSections Component={PublicationForm} title={'Publications'} list={publications} handleItemChange={handlePublicationChange} handleAddItem={handleAddPublication} handleRemoveItem={handleRemovePublication}/>}
-                {toggleAward && <GenerateSections Component={AwardForm} title={'Awards'} list={awards} handleItemChange={handleAwardChange} handleAddItem={handleAddAward} handleRemoveItem={handleRemoveAward}/>}
-                {toggleLang && <GenerateSections Component={LanguageForm} title={'Languages'} list={languages} handleItemChange={handleLanguageChange} handleAddItem={handleAddLanguage} handleRemoveItem={handleRemoveLanguage}/>}
-                {toggleVol && <GenerateSections Component={VolunteerForm} title={'Volunteer Experience'} list={volunteerExps} handleItemChange={handleVolunteerExpChange} handleAddItem={handleAddVolunteerExp} handleRemoveItem={handleRemoveVolunteerExp}/>}
-                {toggleInt && <GenerateSections Component={InterestForm} title={'Hobbies and Interests'} list={interests} handleItemChange={handleInterestChange} handleAddItem={handleAddInterest} handleRemoveItem={handleRemoveInterest}/>}
-                <br />
-                <h3>Optional Sections</h3>
-                <button type="button" className="btn btn-primary" onClick={() => {
-                    setToggleProj(!toggleProj);
-                    if (!toggleProj) {
-                        setProjects([]);
-                    }
-                }}>
-                    {toggleProj ? "Remove Projects" : "Add Projects"}
-                </button>
-                <button type="button" className="btn btn-primary" onClick={() => {
-                    setToggleCert(!toggleCert);
-                    if (!toggleCert) {
-                        setCertificates([]);
-                    }
-                }}>
-                    {toggleCert ? "Remove Certification" : "Add Certification"}
-                </button>
-                <button type="button" className="btn btn-primary" onClick={() => {
-                    setTogglePub(!togglePub)
-                    if (!togglePub) {
-                        setPublications([]);
-                    }
-                }}>
-                    {togglePub ? "Remove Publication" : "Add Publication"}
-                </button>
-                <button type="button" className="btn btn-primary" onClick={() => {
-                    setToggleAward(!toggleAward);
-                    if (!toggleAward) {
-                        setAwards([]);
-                    }
-                }}>
-                    {toggleAward ? "Remove Awards" : "Add Awards"}
-                </button>
-                <button type="button" className="btn btn-primary" onClick={() => {
-                    setToggleLang(!toggleLang);
-                    if (!toggleLang) {
-                        setLanguages([]);
-                    }
-                }}>
-                    {toggleLang ? "Remove Languages" : "Add Languages"}
-                </button>
-                <button type="button" className="btn btn-primary" onClick={() => {
-                    setToggleVol(!toggleVol);
-                    if (!toggleVol) {
-                        setVolunteerExps([]);
-                    }
-                }}>
-                    {toggleVol ? "Remove Volunteer Experience" : "Add Volunteer Experience"}
-                </button>
-                <button type="button" className="btn btn-primary" onClick={() => {
-                    setToggleInt(!toggleInt);
-                    if (!toggleInt) {
-                        setInterests([]);
-                    }
-                }}>
-                    {toggleInt ? "Remove Hobbies" : "Add Hobbies"}
-                </button>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        <ContactForm handleContactChange={handleContactChange}/>
+                    </Col>
+                </Row>
+                <Row className="mb-5">
+                    <Col md={12}>
+                        <SumaryForm handleSummaryChange={handleSummaryChange}/>
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        <GenerateSections Component={ExperienceForm} title={'Work Experience'} list={experiences} handleItemChange={handleExperienceChange} handleAddItem={handleAddExperience} handleRemoveItem={handleRemoveExperience}/>
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        <GenerateSections Component={EducationForm} title={'Education'} list={educations} handleItemChange={handleEducationChange} handleAddItem={handleAddEducation} handleRemoveItem={handleRemoveEducation}/>
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        <GenerateSections Component={SkillForm} title={'Skills'} list={skills} handleItemChange={handleSkillChange} handleAddItem={handleAddSkill} handleRemoveItem={handleRemoveSkill}/>
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        {toggleProj && <GenerateSections Component={ProjectForm} title={'Projects'} list={projects} handleItemChange={handleProjectChange} handleAddItem={handleAddProject} handleRemoveItem={handleRemoveProject}/>}
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        {toggleCert && <GenerateSections Component={CertificationForm} title={'Certifications'} list={certificates} handleItemChange={handleCertificateChange} handleAddItem={handleAddCertificate} handleRemoveItem={handleRemoveCertificate}/>}
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        {togglePub && <GenerateSections Component={PublicationForm} title={'Publications'} list={publications} handleItemChange={handlePublicationChange} handleAddItem={handleAddPublication} handleRemoveItem={handleRemovePublication}/>}
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        {toggleAward && <GenerateSections Component={AwardForm} title={'Awards'} list={awards} handleItemChange={handleAwardChange} handleAddItem={handleAddAward} handleRemoveItem={handleRemoveAward}/>}
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        {toggleLang && <GenerateSections Component={LanguageForm} title={'Languages'} list={languages} handleItemChange={handleLanguageChange} handleAddItem={handleAddLanguage} handleRemoveItem={handleRemoveLanguage}/>}
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        {toggleVol && <GenerateSections Component={VolunteerForm} title={'Volunteer Experience'} list={volunteerExps} handleItemChange={handleVolunteerExpChange} handleAddItem={handleAddVolunteerExp} handleRemoveItem={handleRemoveVolunteerExp}/>}
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={12}>
+                        {toggleInt && <GenerateSections Component={InterestForm} title={'Hobbies'} list={interests} handleItemChange={handleInterestChange} handleAddItem={handleAddInterest} handleRemoveItem={handleRemoveInterest}/>}
+                    </Col>
+                </Row>
                 <hr />
-                <button type="submit" className="btn btn-primary">Generate Portfolio</button>
+                <h3 className="text-center">Optional Sections</h3>
+                <Stack gap={3}>
+                    <Button variant="outline-light" type="button" onClick={() => {
+                        setToggleProj(!toggleProj);
+                        if (!toggleProj) {
+                            setProjects([]);
+                        }
+                    }}>
+                        {toggleProj ? "Remove Projects" : "Add Projects"}
+                    </Button>
+                    <Button variant="outline-light" type="button" onClick={() => {
+                        setToggleCert(!toggleCert);
+                        if (!toggleCert) {
+                            setCertificates([]);
+                        }
+                    }}>
+                        {toggleCert ? "Remove Certification" : "Add Certification"}
+                    </Button>
+                    <Button variant="outline-light" type="button" onClick={() => {
+                        setTogglePub(!togglePub)
+                        if (!togglePub) {
+                            setPublications([]);
+                        }
+                    }}>
+                        {togglePub ? "Remove Publication" : "Add Publication"}
+                    </Button>
+                    <Button variant="outline-light" type="button" onClick={() => {
+                        setToggleAward(!toggleAward);
+                        if (!toggleAward) {
+                            setAwards([]);
+                        }
+                    }}>
+                        {toggleAward ? "Remove Awards" : "Add Awards"}
+                    </Button>
+                    <Button variant="outline-light" type="button" onClick={() => {
+                        setToggleLang(!toggleLang);
+                        if (!toggleLang) {
+                            setLanguages([]);
+                        }
+                    }}>
+                        {toggleLang ? "Remove Languages" : "Add Languages"}
+                    </Button>
+                    <Button variant="outline-light" type="button" onClick={() => {
+                        setToggleVol(!toggleVol);
+                        if (!toggleVol) {
+                            setVolunteerExps([]);
+                        }
+                    }}>
+                        {toggleVol ? "Remove Volunteer Experience" : "Add Volunteer Experience"}
+                    </Button>
+                    <Button variant="outline-light" type="button" onClick={() => {
+                        setToggleInt(!toggleInt);
+                        if (!toggleInt) {
+                            setInterests([]);
+                        }
+                    }}>
+                        {toggleInt ? "Remove Hobbies" : "Add Hobbies"}
+                    </Button>
+                </Stack>
+                <hr />
+                <Button variant="outline-light" type="submit">Generate Portfolio</Button>
                 {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
-            </form>
-        </div>
+            </Form>
+        </Container>
     );
 }
 
-export default Form;
+export default PortfolioForm;

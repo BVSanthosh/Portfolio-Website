@@ -1,7 +1,10 @@
 /**
  * The parent component for the Login and Signup components
  */
-
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom'; 
 
 function Auth() {
@@ -18,18 +21,27 @@ function Auth() {
     }
 
     return (
-        <div className="container text-center mt-5">
-            <h1>Welcome to Project-0925</h1>
-            <div className="mt-4">
-                <button onClick={goToSignup} className="btn btn-primary me-2">
-                    Sign Up
-                </button>
-                <button onClick={goToLogin} className="btn btn-secondary">
-                    Log In
-                </button>
+        <Container d-fluid className="d-flex flex-column justify-content-center align-items-center vh-100">
+            <h1 className="text-center">Welcome to Project-0925</h1>
+            <br />
+            <div className="d-grid gap-2">
+                <Row className="mb-3" >
+                    <Col className="mx-auto">
+                        <Button className="w-100" size="lg" variant="outline-light" onClick={goToSignup}>
+                            Sign Up
+                        </Button>
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col className="mx-auto">
+                        <Button className="w-100" size="lg" variant="outline-light" onClick={goToLogin}>
+                            Log In
+                        </Button>
+                    </Col>
+                </Row>
             </div>
-        </div>
+        </Container>
     );
-}
 
+}
 export default Auth;

@@ -6,6 +6,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+// Set the dark-mode class on the body element
+document.body.classList.add('dark-mode');
+
 root.render(
   <React.StrictMode>
     <App />

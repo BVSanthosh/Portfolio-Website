@@ -4,6 +4,12 @@
 
 import axios from 'axios';
 import { useState } from  'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import { useNavigate, Link } from 'react-router-dom';
 
 function Signup() {
@@ -81,64 +87,43 @@ function Signup() {
     }
 
     return (
-        <div className="container mt-5">
-            <h2 className="text-center">Sign Up</h2>
-            <form onSubmit={handleSubmit} className="mt-4">
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="firstName">First Name:</label>
-                    <input 
-                        type="text"
-                        name="firstName"
-                        id="firstName"  
-                        value={signupForm.firstName}
-                        onChange={handleChange}
-                        className="form-control"
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="lastName">Last Name:</label>
-                    <input 
-                        type="text"
-                        name="lastName"
-                        id="lastName"  
-                        value={signupForm.lastName}
-                        onChange={handleChange}
-                        className="form-control"
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="email">Email:</label>
-                    <input 
-                        type="email"
-                        name="email"
-                        id="email"  
-                        value={signupForm.email}
-                        onChange={handleChange}
-                        className="form-control"
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="password">Password:</label>
-                    <input 
-                        type="password"
-                        name="password"
-                        id="password"  
-                        value={signupForm.password}
-                        onChange={handleChange}
-                        className="form-control"
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Sign Up</button>
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100">
+            <Form onSubmit={handleSubmit}>
+                <h2 className="text-center">Sign Up</h2>
+                <br />
+                <Row className="mb-3">
+                    <Form.Group as={Col} controlId="firstName">
+                        <FloatingLabel label="First Name">
+                            <Form.Control type="text" name="firstName" value={signupForm.firstName} onChange={handleChange} required/>
+                        </FloatingLabel>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="lastName">
+                        <FloatingLabel label="Last Name">
+                            <Form.Control type="text" name="lastName" value={signupForm.lastName} onChange={handleChange} required/>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group as={Col} controlId="email">
+                        <FloatingLabel label="Email">
+                            <Form.Control type="email" name="email" value={signupForm.email} onChange={handleChange} required/>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group as={Col} controlId="password">
+                        <FloatingLabel label="Password">
+                            <Form.Control type="password" name="password" value={signupForm.password} onChange={handleChange} required/>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Row>
+                <Button variant="outline-light" type="submit">Sign Up</Button>
                 {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
-            </form>
-            <div className="mt-3">
-                <p>Already have an account? <Link to="/login">Log In</Link></p>
-            </div>
-        </div>
+                <div className="mt-3">
+                    <p>Already have an account? <Link to="/login">Log In</Link></p>
+                </div>
+            </Form>
+        </Container>
     );
 }
 

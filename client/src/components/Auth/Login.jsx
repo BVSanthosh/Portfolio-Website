@@ -4,6 +4,12 @@
 
 import axios from 'axios';
 import { useState } from  'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import { useNavigate, Link} from 'react-router-dom';
 
 function Login() {
@@ -44,44 +50,31 @@ function Login() {
     }
 
     return (
-        <div className="container mt-5">
-            <h2>Log In</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">
-                        Email:
-                    </label>
-                    <input 
-                        type="email"
-                        id="email" 
-                        name="email"
-                        value={loginForm.email}
-                        onChange={handleChange}
-                        className="form-control"
-                        required
-                    />
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100" >
+            <Form onSubmit={handleSubmit}>
+                <h2 className="text-center">Log In</h2>
+                <br />
+                <Row className="mb-3">
+                    <Form.Group as={Col} md={12} controlId="email">
+                        <FloatingLabel label="Email">
+                            <Form.Control style={{width: '350px'}} type="email" name="email" value={loginForm.email} onChange={handleChange} required/>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group as={Col} md={12} controlId="password">
+                        <FloatingLabel label="Password">
+                            <Form.Control style={{width: '350px'}} type="password" name="password" value={loginForm.password} onChange={handleChange} required/>
+                        </FloatingLabel>
+                    </Form.Group>
+                </Row>
+                <Button variant="outline-light" type="submit">Sign Up</Button>
+                {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
+                <div className="mt-3">
+                    <p>Don&apos;t have an account? <Link to="/signup">Sign Up</Link></p>
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                        Password:
-                    </label>
-                    <input 
-                        type="password"
-                        id="password" 
-                        name="password"
-                        value={loginForm.password}
-                        onChange={handleChange}
-                        className="form-control" 
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Log In</button>
-                {errorMessage && <p className="text-danger mt-3">{errorMessage}</p>}
-            </form>
-            <div className="mt-3">
-                <p>Don&apos;t have an account? <Link to="/signup">Sign Up</Link></p>
-            </div>
-        </div>
+            </Form>
+        </Container>
     );
 }
 
