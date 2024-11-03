@@ -370,71 +370,70 @@ function PortfolioForm() {
     }
 
     return (
-        <Container >
+        <Container fluid className="d-flex flex-column justify-content-center align-items-center">
             <h2 className="text-center">Complete Your Portfolio</h2>
             <Form onSubmit={handleSubmit}>
                 <hr />
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         <ContactForm handleContactChange={handleContactChange}/>
                     </Col>
                 </Row>
-                <Row className="mb-3">
-                    <Col md={6}>
+                <Row className="mb-5">
+                    <Col md={12}>
                         <SumaryForm handleSummaryChange={handleSummaryChange}/>
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         <GenerateSections Component={ExperienceForm} title={'Work Experience'} list={experiences} handleItemChange={handleExperienceChange} handleAddItem={handleAddExperience} handleRemoveItem={handleRemoveExperience}/>
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         <GenerateSections Component={EducationForm} title={'Education'} list={educations} handleItemChange={handleEducationChange} handleAddItem={handleAddEducation} handleRemoveItem={handleRemoveEducation}/>
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         <GenerateSections Component={SkillForm} title={'Skills'} list={skills} handleItemChange={handleSkillChange} handleAddItem={handleAddSkill} handleRemoveItem={handleRemoveSkill}/>
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         {toggleProj && <GenerateSections Component={ProjectForm} title={'Projects'} list={projects} handleItemChange={handleProjectChange} handleAddItem={handleAddProject} handleRemoveItem={handleRemoveProject}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         {toggleCert && <GenerateSections Component={CertificationForm} title={'Certifications'} list={certificates} handleItemChange={handleCertificateChange} handleAddItem={handleAddCertificate} handleRemoveItem={handleRemoveCertificate}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         {togglePub && <GenerateSections Component={PublicationForm} title={'Publications'} list={publications} handleItemChange={handlePublicationChange} handleAddItem={handleAddPublication} handleRemoveItem={handleRemovePublication}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         {toggleAward && <GenerateSections Component={AwardForm} title={'Awards'} list={awards} handleItemChange={handleAwardChange} handleAddItem={handleAddAward} handleRemoveItem={handleRemoveAward}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         {toggleLang && <GenerateSections Component={LanguageForm} title={'Languages'} list={languages} handleItemChange={handleLanguageChange} handleAddItem={handleAddLanguage} handleRemoveItem={handleRemoveLanguage}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         {toggleVol && <GenerateSections Component={VolunteerForm} title={'Volunteer Experience'} list={volunteerExps} handleItemChange={handleVolunteerExpChange} handleAddItem={handleAddVolunteerExp} handleRemoveItem={handleRemoveVolunteerExp}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
-                    <Col md={6}>
+                    <Col md={12}>
                         {toggleInt && <GenerateSections Component={InterestForm} title={'Hobbies'} list={interests} handleItemChange={handleInterestChange} handleAddItem={handleAddInterest} handleRemoveItem={handleRemoveInterest}/>}
                     </Col>
                 </Row>
-                <br />
                 <hr />
                 <h3 className="text-center">Optional Sections</h3>
                 <Stack gap={3}>

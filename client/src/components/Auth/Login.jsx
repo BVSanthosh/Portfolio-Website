@@ -50,22 +50,21 @@ function Login() {
     }
 
     return (
-        <Container fluid className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }} >
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100" >
             <Form onSubmit={handleSubmit}>
                 <h2 className="text-center">Log In</h2>
                 <br />
-                
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="email">
+                    <Form.Group as={Col} md={12} controlId="email">
                         <FloatingLabel label="Email">
-                            <Form.Control type="email" name="email" value={loginForm.email} onChange={handleChange} required/>
+                            <Form.Control style={{width: '350px'}} type="email" name="email" value={loginForm.email} onChange={handleChange} required/>
                         </FloatingLabel>
                     </Form.Group>
                 </Row>
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="password">
+                    <Form.Group as={Col} md={12} controlId="password">
                         <FloatingLabel label="Password">
-                            <Form.Control type="password" name="password" value={loginForm.password} onChange={handleChange} required/>
+                            <Form.Control style={{width: '350px'}} type="password" name="password" value={loginForm.password} onChange={handleChange} required/>
                         </FloatingLabel>
                     </Form.Group>
                 </Row>

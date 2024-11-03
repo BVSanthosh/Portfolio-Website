@@ -3,7 +3,6 @@
  */
 
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -22,7 +21,7 @@ function AwardForm({ item, handleItemChange }) {
     };
 
     return (
-        <Container>
+        <>
             <Row className="mb-3">
                 <Form.Group as={Col} controlId={`title-${item.id}`}>
                     <FloatingLabel label="Title"> 
@@ -75,7 +74,7 @@ function AwardForm({ item, handleItemChange }) {
                     </FloatingLabel>
                 </Form.Group>
             </Row>
-        </Container>
+        </>
     );
 }
 

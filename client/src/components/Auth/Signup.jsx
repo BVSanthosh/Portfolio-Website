@@ -87,7 +87,7 @@ function Signup() {
     }
 
     return (
-        <Container fluid className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }} >
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100">
             <Form onSubmit={handleSubmit}>
                 <h2 className="text-center">Sign Up</h2>
                 <br />

@@ -21,20 +21,20 @@ function Auth() {
     }
 
     return (
-        <Container fluid className="d-flex flex-column justify-content-center align-items-center vh-100">
+        <Container d-fluid className="d-flex flex-column justify-content-center align-items-center vh-100">
             <h1 className="text-center">Welcome to Project-0925</h1>
             <br />
             <div className="d-grid gap-2">
                 <Row className="mb-3" >
                     <Col className="mx-auto">
-                        <Button size="lg" variant="outline-light" onClick={goToSignup}>
+                        <Button className="w-100" size="lg" variant="outline-light" onClick={goToSignup}>
                             Sign Up
                         </Button>
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <Col className="mx-auto">
-                        <Button size="lg" variant="outline-light" onClick={goToLogin}>
+                        <Button className="w-100" size="lg" variant="outline-light" onClick={goToLogin}>
                             Log In
                         </Button>
                     </Col>
