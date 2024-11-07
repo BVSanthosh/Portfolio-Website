@@ -68,7 +68,7 @@ function Login() {
                         </FloatingLabel>
                     </Form.Group>
                 </Row>
-                <Button variant="outline-light" type="submit">Sign Up</Button>
+                <Button variant="outline-light" type="submit">Log In</Button>
                 {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
                 <div className="mt-3">
                     <p>Don&apos;t have an account? <Link to="/signup">Sign Up</Link></p>

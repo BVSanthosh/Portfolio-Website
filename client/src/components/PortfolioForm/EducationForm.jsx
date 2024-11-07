@@ -76,7 +76,7 @@ function ExperienceForm({ item, handleItemChange }) {
                         <Form.Control
                             type="date"
                             name="endDate"  
-                            value={item.startDate}
+                            value={item.endDate}
                             onChange={handleChange}
                             required
                         />

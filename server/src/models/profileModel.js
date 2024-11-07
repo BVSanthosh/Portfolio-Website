@@ -27,6 +27,10 @@ const profileSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    location: {
+        type: String,
+        required: true
+    },
     linkedIn: {
         type: String,
     },
@@ -73,9 +77,11 @@ const profileSchema = new mongoose.Schema({
             type: String,
         },
     }],
-    skills: {
-        type: [String],
-    }
+    skills: [{
+        name: {
+            type: String
+        }
+    }]
 });
 
 const Profile = mongoose.model('Profile', profileSchema);   //converts the schema into a model

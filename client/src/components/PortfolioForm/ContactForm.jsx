@@ -8,7 +8,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function ContactForm({ handleContactChange }) {
+function ContactForm({ item, handleItemChange }) {
 
     return (
         <Container>
@@ -19,7 +19,8 @@ function ContactForm({ handleContactChange }) {
                         <Form.Control
                             type="text"
                             name="firstName"  
-                            onChange={handleContactChange}
+                            value={item.firstName}
+                            onChange={handleItemChange}
                             required
                         />
                     </FloatingLabel>
@@ -29,7 +30,8 @@ function ContactForm({ handleContactChange }) {
                         <Form.Control
                             type="text"
                             name="lastName"  
-                            onChange={handleContactChange}
+                            value={item.lastName}
+                            onChange={handleItemChange}
                             required
                         />
                     </FloatingLabel>
@@ -41,7 +43,8 @@ function ContactForm({ handleContactChange }) {
                         <Form.Control
                             type="email"
                             name="email"  
-                            onChange={handleContactChange}
+                            value={item.email}
+                            onChange={handleItemChange}
                             required
                         />
                     </FloatingLabel>
@@ -53,7 +56,8 @@ function ContactForm({ handleContactChange }) {
                         <Form.Control
                             type="tel"
                             name="phoneNumber"  
-                            onChange={handleContactChange}
+                            value={item.phoneNumber}
+                            onChange={handleItemChange}
                             required
                         />
                     </FloatingLabel>
@@ -62,8 +66,9 @@ function ContactForm({ handleContactChange }) {
                     <FloatingLabel label="Location">
                         <Form.Control
                             type="text"
-                            name="location"  
-                            onChange={handleContactChange}
+                            name="location"
+                            value={item.location}
+                            onChange={handleItemChange}
                             required
                         />
                     </FloatingLabel>
@@ -75,7 +80,8 @@ function ContactForm({ handleContactChange }) {
                         <Form.Control
                             type="text"
                             name="linkedIn"  
-                            onChange={handleContactChange}
+                            value={item.linkedIn}
+                            onChange={handleItemChange}
                             required
                         />
                     </FloatingLabel>

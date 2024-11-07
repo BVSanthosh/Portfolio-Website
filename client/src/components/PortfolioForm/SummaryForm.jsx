@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 
-function SummaryForm({ handleSummaryChange }) {
+function SummaryForm({ item, handleItemChange }) {
 
     return (
         <Container>
@@ -15,7 +15,8 @@ function SummaryForm({ handleSummaryChange }) {
                 <Form.Control
                     as="textarea"
                     name="summary"
-                    onChange={handleSummaryChange}
+                    value={item}
+                    onChange={handleItemChange}
                     style={{ height: '100px' }}
                     required
                 />

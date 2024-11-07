@@ -1,5 +1,5 @@
 /*
-    Contains the controller for handling the form submission
+ *   The controller for handling the form submission
 */
 
 const Profile = require('../models/profileModel');  //imports the profile model
@@ -22,6 +22,7 @@ exports.form = async (req, res) => {
             lastName: contactInfo.lastName,
             email: contactInfo.email,
             phoneNumber: contactInfo.phoneNumber,
+            location: contactInfo.location,
             linkedIn: contactInfo.linkedIn,
             summary: summary,
             experience: experience,

@@ -9,6 +9,7 @@ const express = require('express');
 const { connectDB } = require('./src/config/database');
 const authRouter = require('./src/routes/authRoute');  //imports the authentication routes
 const formRouter = require('./src/routes/formRoute');  //imports the form route
+const portfolioRouter = require('./src/routes/portfolioRoute');  //imports the portfolio route
 const app = express();
 
 app.use(cookieParser());  //middleware that makes parsing cookies easier
@@ -28,6 +29,7 @@ app.use(express.json());  //uses a default middleware which parses JSON data fro
 
 app.use('/api/v1/user', authRouter);  //sets up the authentication routes (signup and login)
 app.use('/api/v1/user', formRouter)   //sets up the form route
+app.use('/api/v1/user', portfolioRouter);  //sets up the portfolio route
 
 app.get("/", (req, res) => {  //root route
     res.send("Welcome to Project-0925");

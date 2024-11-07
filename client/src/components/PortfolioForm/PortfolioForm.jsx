@@ -23,7 +23,7 @@ import LanguageForm from './LanguageForm.jsx';   //imports the languages section
 import ProjectForm from './ProjectForm.jsx';   //imports the projects section component
 import PublicationForm from './PublicationForm.jsx';   //imports the publications section component
 import SkillForm from './SkillForm.jsx';
-import SumaryForm from './SummaryForm.jsx';   //imports the summary section component
+import SummaryForm from './SummaryForm.jsx';   //imports the summary section component
 import VolunteerForm from './VolunteerForm.jsx';   //imports the volunteer section component
 
 function PortfolioForm() {
@@ -163,7 +163,6 @@ function PortfolioForm() {
             ...skills,
             {
                 id: nextSkillId,
-                title: '',
                 name: ''
             }
         ]);
@@ -359,7 +358,7 @@ function PortfolioForm() {
 
             if (response.data.success) {
                 console.log('Form filled up successfully:', response.data);
-                navigate('/profile');
+                navigate('/portfolio');
             } else {
                 setErrorMessage('Form fill up failed. Please try again.');
             }
@@ -376,12 +375,12 @@ function PortfolioForm() {
                 <hr />
                 <Row className="mb-3">
                     <Col md={12}>
-                        <ContactForm handleContactChange={handleContactChange}/>
+                        <ContactForm item={contactInfo} handleItemChange={handleContactChange}/>
                     </Col>
                 </Row>
                 <Row className="mb-5">
                     <Col md={12}>
-                        <SumaryForm handleSummaryChange={handleSummaryChange}/>
+                        <SummaryForm item={summary} handleItemChange={handleSummaryChange}/>
                     </Col>
                 </Row>
                 <Row className="mb-3">

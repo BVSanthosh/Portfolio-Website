@@ -51,7 +51,7 @@ function ExperienceForm({item, handleItemChange}) {
                     <FloatingLabel label="Location"> 
                         <Form.Control
                             type="text"
-                            name="jobTitle"  
+                            name="location"  
                             value={item.location}
                             onChange={handleChange}
                             required
@@ -76,7 +76,7 @@ function ExperienceForm({item, handleItemChange}) {
                         <Form.Control
                             type="date"
                             name="endDate"  
-                            value={item.startDate}
+                            value={item.endDate}
                             onChange={handleChange}
                             required
                         />

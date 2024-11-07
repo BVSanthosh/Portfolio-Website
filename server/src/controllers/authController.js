@@ -1,5 +1,5 @@
 /*
-    Contains the controllers for authentication (login and signup)
+    The controllers for authentication (login and signup)
 */
 
 const bcrypt = require('bcryptjs');
@@ -20,7 +20,7 @@ exports.signup = async (req, res) => {
             });
         }
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: email });
 
         if (existingUser) {
             return res.status(400).json({
