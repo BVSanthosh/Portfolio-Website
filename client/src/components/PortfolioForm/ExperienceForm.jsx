@@ -30,7 +30,6 @@ function ExperienceForm({item, handleItemChange}) {
                             name="jobTitle"  
                             value={item.jobTitle}
                             onChange={handleChange}
-                            required
                         />
                     </FloatingLabel>
                 </Form.Group>
@@ -41,7 +40,6 @@ function ExperienceForm({item, handleItemChange}) {
                             name="companyName"  
                             value={item.companyName}
                             onChange={handleChange}
-                            required
                         />
                     </FloatingLabel>
                 </Form.Group>
@@ -51,10 +49,9 @@ function ExperienceForm({item, handleItemChange}) {
                     <FloatingLabel label="Location"> 
                         <Form.Control
                             type="text"
-                            name="jobTitle"  
+                            name="location"  
                             value={item.location}
                             onChange={handleChange}
-                            required
                         />
                     </FloatingLabel>
                 </Form.Group>
@@ -67,7 +64,6 @@ function ExperienceForm({item, handleItemChange}) {
                             name="startDate"  
                             value={item.startDate}
                             onChange={handleChange}
-                            required
                         />
                     </FloatingLabel>
                 </Form.Group>
@@ -76,9 +72,8 @@ function ExperienceForm({item, handleItemChange}) {
                         <Form.Control
                             type="date"
                             name="endDate"  
-                            value={item.startDate}
+                            value={item.endDate}
                             onChange={handleChange}
-                            required
                         />
                     </FloatingLabel>
                 </Form.Group>
@@ -93,7 +88,6 @@ function ExperienceForm({item, handleItemChange}) {
                             value={item.achievements}
                             onChange={handleChange}
                             style={{height:'100px'}}
-                            required
                         />
                     </FloatingLabel>
                 </Form.Group>

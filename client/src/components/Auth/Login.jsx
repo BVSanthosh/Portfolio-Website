@@ -38,8 +38,7 @@ function Login() {
             const response = await axios.post('http://localhost:5000/api/v1/user/login', loginForm);  //establishes a http connection to the specified endpoint
 
             if (response.data.success) {
-                console.log('Login successful:', response.data);
-                navigate('/form');   //navigates to the form page after successfully logining in
+                response.data.data.profileCreated ? navigate('/portfolio') : navigate('/form');   //navigates to either the form page or portfolio page after successfully logining in
             } else {
                 setErrorMessage('Login failed. Please check your email and password.');
             }
@@ -68,7 +67,7 @@ function Login() {
                         </FloatingLabel>
                     </Form.Group>
                 </Row>
-                <Button variant="outline-light" type="submit">Sign Up</Button>
+                <Button variant="outline-light" type="submit">Log In</Button>
                 {errorMessage && <p className="text-danger mt-2">{errorMessage}</p>}
                 <div className="mt-3">
                     <p>Don&apos;t have an account? <Link to="/signup">Sign Up</Link></p>

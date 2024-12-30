@@ -1,5 +1,5 @@
 /**
- * Publication Component
+ * Certifications Component
  */
 
 import Col from 'react-bootstrap/Col';
@@ -7,24 +7,24 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function PublicationForm({ item, handleItemChange }) {
+function CertificationsForm({item, handleItemChange}) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const { name, value } = e.target;
-        const updatedPublication = {
+        const updatedCertificate = {
             ...item,
             [name]: value
         };
 
-        handleItemChange(updatedPublication);
+        handleItemChange(updatedCertificate);
     };
 
     return (
         <>
             <Row className="mb-3">
                 <Form.Group as={Col} controlId={`title-${item.id}`}>
-                    <FloatingLabel label="Publication Title"> 
+                    <FloatingLabel label="Title"> 
                         <Form.Control
                             type="text"
                             name="title"  
@@ -34,12 +34,12 @@ function PublicationForm({ item, handleItemChange }) {
                         />
                     </FloatingLabel>
                 </Form.Group>
-                <Form.Group as={Col} controlId={`date-published-${item.id}`}>
-                    <FloatingLabel label="Start Date"> 
+                <Form.Group as={Col} controlId={`org-${item.id}`}>
+                    <FloatingLabel label="Issuing Organisation"> 
                         <Form.Control
-                            type="date"
-                            name="datePublished"  
-                            value={item.datePublished}
+                            type="text"
+                            name="organisation"  
+                            value={item.organisation}
                             onChange={handleChange}
                             required
                         />
@@ -47,12 +47,12 @@ function PublicationForm({ item, handleItemChange }) {
                 </Form.Group>
             </Row>
             <Row className="mb-3">
-                <Form.Group as={Col} controlId={`link-${item.id}`}>
-                    <FloatingLabel label="Link"> 
+            <Form.Group as={Col} controlId={`earned-date-${item.id}`}>
+                    <FloatingLabel label="Earned Date"> 
                         <Form.Control
-                            type="text"
-                            name="link"  
-                            value={item.link}
+                            type="date"
+                            name="earnedDate"  
+                            value={item.earnedDate}
                             onChange={handleChange}
                             required
                         />
@@ -78,4 +78,4 @@ function PublicationForm({ item, handleItemChange }) {
     );
 }
 
-export default PublicationForm;
+export default CertificationsForm;

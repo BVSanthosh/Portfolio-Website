@@ -1,5 +1,5 @@
 /**
- * Project item Component
+ * Projects item Component
  */
 
 import Col from 'react-bootstrap/Col';
@@ -7,7 +7,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function ProjectForm({item, handleItemChange}) {
+function ProjectsForm({item, handleItemChange}) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
@@ -54,4 +54,4 @@ function ProjectForm({item, handleItemChange}) {
     );
 }
 
-export default ProjectForm;
+export default ProjectsForm;

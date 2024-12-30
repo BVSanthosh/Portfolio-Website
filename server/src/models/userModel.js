@@ -25,7 +25,11 @@ const userSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         required: true
-    }
+    },
+    profileCreated: {
+        type: Boolean,
+        required: true
+    },
 });
 
 const User = mongoose.model('User', userSchema);  //converts the schema into a model
