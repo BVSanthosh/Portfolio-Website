@@ -10,8 +10,6 @@ This web platform empowers users to create and showcase their professional portf
   - [Database](#database)
   - [Other Libraries](#other-libraries)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Technologies Used
@@ -43,16 +41,12 @@ This web platform empowers users to create and showcase their professional portf
 
 ## Installation
 
-Instructions for installing your project.
-
-## Usage
-
-Instructions for using your project.
-
-## Contributing
-
-Instructions for contributing to your project.
+1. Clone the repository.
+2. Use npm i to install all the relevant dependencies.
+3. Use npm start to run the application.
 
 ## License
 
-Include your project's license.
+This project is licensed under the MIT License. 
+
+You can view the full license text in the [LICENSE](./LICENSE) file.
