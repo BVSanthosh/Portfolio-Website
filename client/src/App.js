@@ -10,8 +10,8 @@ import './App.css';
 import Auth from './components/Auth/Auth.jsx';  //imports the Home component
 import Login from './components/Auth/Login.jsx';  //imports the Login component
 import Signup from './components/Auth/Signup.jsx';  //imports the Signup component
-import PortfolioForm from './components/PortfolioForm/PortfolioForm.jsx'; //i
-import PortfolioPage from './components/PortfolioPage/PortfolioPage.jsx'; //imports the Profile componentimports the Form component
+import PortfolioForm from './components/PortfolioForm/PortfolioForm.jsx'; //imports the Form component
+import PortfolioPage from './components/PortfolioPage/PortfolioPage.jsx'; //imports the Profile component
 
 axios.defaults.withCredentials = true;
 

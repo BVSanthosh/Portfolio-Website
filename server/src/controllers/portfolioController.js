@@ -6,7 +6,7 @@ const Profile = require('../models/profileModel');
 
 exports.portfolio = async (req, res) => {
     try {
-        const userId = req.userId;
+        const userId = req.user.id;
         const existingProfile = await Profile.findOne({ userId: userId });
 
         if (!existingProfile) {
@@ -32,7 +32,7 @@ exports.portfolio = async (req, res) => {
 
 exports.updatePortfolio = async (req, res) => {
     try {
-        const userId = req.userId;
+        const userId = req.user.id;
         const { section, data } = req.body; 
         let updatedField;
 
@@ -55,6 +55,27 @@ exports.updatePortfolio = async (req, res) => {
                 break;
             case 'skills':
                 updatedField = {skills: data};
+                break;
+            case 'projects':
+                updatedField = {projects: data};
+                break;
+            case 'certifications':
+                updatedField = {certifications: data};
+                break;
+            case 'publications':
+                updatedField = {publications: data};
+                break;
+            case 'awards':
+                updatedField = {awards: data};
+                break;
+            case 'languages':
+                updatedField = {languages: data};
+                break;
+            case 'volunteer':
+                updatedField = {volunteer: data};
+                break;
+            case 'interests':
+                updatedField = {interests: data};
                 break;
             default:
                 return res.status(400).json({

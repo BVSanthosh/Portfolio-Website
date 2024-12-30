@@ -20,7 +20,7 @@ exports.authenticateToken = (req, res, next) => {
                 });
             }
 
-            req.userId = decoded.id;
+            req.user = decoded;
             next();
         });
     } catch(error) {

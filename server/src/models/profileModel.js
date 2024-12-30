@@ -34,10 +34,16 @@ const profileSchema = new mongoose.Schema({
     linkedIn: {
         type: String,
     },
+    profileImage: {
+        type: String,
+    },
     summary: {
         type: String,
     },
     experience: [{
+        id: {
+            type: String,
+        },
         jobTitle: {
             type: String,
         },
@@ -58,6 +64,9 @@ const profileSchema = new mongoose.Schema({
         },
     }],
     education: [{
+        id: {
+            type: String,
+        },
         qualification: {
             type: String,
         },
@@ -78,7 +87,105 @@ const profileSchema = new mongoose.Schema({
         },
     }],
     skills: [{
+        id: {
+            type: String,
+        },
         name: {
+            type: String
+        }
+    }],
+    projects: [{
+        id: {
+            type: String,
+        },
+        title: {
+            type: String
+        },
+        achievements: {
+            type: String
+        }
+    }],
+    certifications: [{
+        id: {
+            type: String,
+        },
+        title: {
+            type: String
+        },
+        organisation: {
+            type: String
+        },
+        dateEarned: {
+            type: Date
+        }
+    }],
+    publications: [{
+        id: {
+            type: String,
+        },
+        title: {
+            type: String
+        },
+        datePublished: {
+            type: String
+        },
+        link: {
+            type: String
+        },
+        description: {
+            type: String
+        }
+    }],
+    awards: [{
+        id: {
+            type: String,
+        },
+        title: {
+            type: String
+        },
+        organisation: {
+            type: String
+        },
+        dateAwarded: {
+            type: String
+        },
+        description: {
+            type: String
+        }
+    }],
+    languages: [{
+        id: {
+            type: String,
+        },
+        language: {
+            type: String
+        }
+    }],
+    volunteer: [{
+        id: {
+            type: String,
+        },
+        position: {
+            type: String
+        },
+        organisation: {
+            type: String
+        },
+        startDate: {
+            type: String
+        },
+        endDate: {
+            type: String
+        },
+        responsibilities: {
+            type: String
+        }
+    }],
+    interests: [{
+        id: {
+            type: String,
+        },
+        interest: {
             type: String
         }
     }]

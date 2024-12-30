@@ -13,53 +13,51 @@ import { v4 as uuidv4 } from 'uuid';
 import AddPopUp from './AddPopUp.jsx';
 import EditList from './EditList.jsx';
 import EditPopUp from './EditPopUp.jsx';
-import ExperienceForm from '../PortfolioForm/ExperienceForm.jsx';
+import CertificationsForm from '../PortfolioForm/CertificationsForm.jsx';
 
-function PortfolioExperience({ experience, onSave }) {
-    const [localExperience, setLocalExperience] = useState([]);
+function PortfolioCertification({ certificates, onSave }) {
+    const [localCertificates, setLocalCertificates] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
 
     useEffect(() => {
-        if (experience && experience.length > 0) {
-            setLocalExperience(experience);
+        if (certificates && certificates.length > 0) {
+            setLocalCertificates(certificates);
         }
-    }, [experience]);
+    }, [certificates]);
 
-    const handleExperienceChange = (updatedExperience) => {
-        setLocalExperience(prevExperience => prevExperience.map(exp => exp.id === updatedExperience.id ? updatedExperience : exp));
+    const handleCertificateChange = (updatedCertificate) => {
+        setLocalCertificates(prevCertificates =>
+            prevCertificates.map(cert => cert.id === updatedCertificate.id ? updatedCertificate : cert)
+        );
     };
 
-    const handleAddExperience = () => {
-        setLocalExperience([
-            ...localExperience,
+    const handleAddCertificate = () => {
+        setLocalCertificates([
+            ...localCertificates,
             {
                 id: uuidv4(),
-                jobTitle: '',
-                companyName: '',
-                location: '',
-                startDate: '',
-                endDate: '',
+                title: '',
+                organisation: '',
+                dateEarned: '',
                 description: ''
             }
         ]);
     };
 
-    const handleRemoveExperience = (exp) => {
-        setLocalExperience(localExperience.filter(item => item.id !== exp.id));
+    const handleRemoveCertificate = (certificate) => {
+        setLocalCertificates(localCertificates.filter(cert => cert.id !== certificate.id));
     };
 
     const handleSave = () => {
-        onSave(localExperience);
-        persistExperienceChange(localExperience);
+        onSave(localCertificates);
+        persistCertificatesChange(localCertificates);
     };
 
-    const toggleEdit = () => {
-        setShowEdit(true);
-    };
+    const toggleEdit = () => setShowEdit(true);
 
     const toggleAdd = () => {
-        handleAddExperience();
+        handleAddCertificate();
         setShowAdd(true);
     };
 
@@ -74,39 +72,39 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const cancelAdd = () => {
-        setLocalExperience([...experience]);
+        setLocalCertificates([...certificates]);
         setShowAdd(false);
     };
 
     const cancelEdit = () => {
-        setLocalExperience([...experience]);
+        setLocalCertificates([...certificates]);
         setShowEdit(false);
     };
 
-    const persistExperienceChange = async (updatedExperience) => {
+    const persistCertificatesChange = async (updatedCertificates) => {
         try {
             const payload = {
-                section: 'experience',
-                data: updatedExperience,
+                section: 'certifications',
+                data: updatedCertificates,
             };
 
             const response = await axios.put('http://localhost:5000/api/v1/user/portfolio/update', payload);
 
             if (response.data.success) {
-                console.log('Experience section updated successfully');
+                console.log('Certification section updated successfully');
             } else {
-                console.error('Failed to update experience section. Please try again.');
+                console.error('Failed to update certification section. Please try again.');
             }
         } catch (error) {
-            console.error('Error updating experience section:', error.response ? error.response.data : error.message);
+            console.error('Error updating certification section:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
-        <Container id="experience">
+        <Container id="certification">
             <Row>
                 <Col>
-                    <h2>Experience</h2>
+                    <h2>Certification</h2>
                 </Col>
                 <Col className="d-flex flex-row-reverse my-2">
                     <Button
@@ -124,20 +122,20 @@ function PortfolioExperience({ experience, onSave }) {
                         variant="outline-light"
                         className="mx-1"
                         onClick={toggleEdit}
-                        disabled={localExperience.length === 0}
+                        disabled={localCertificates.length === 0}
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                 </Col>
             </Row>
-            {experience.length > 0 ? (
-                experience.map((exp) => (
-                    <Card key={exp.id} className="my-3" border="light" bg="dark" text="light">
+            {certificates.length > 0 ? (
+                certificates.map(cert => (
+                    <Card key={cert.id} className="my-3" border="light" bg="dark" text="light">
                         <Card.Body>
-                            <Card.Title>{exp.companyName}</Card.Title>
-                            <Card.Subtitle>{exp.jobTitle}</Card.Subtitle>
-                            <Card.Subtitle>{exp.startDate} - {exp.endDate}, {exp.location}</Card.Subtitle>
-                            <Card.Text>{exp.description}</Card.Text>
+                            <Card.Title>{cert.title}</Card.Title>
+                            <Card.Subtitle>{cert.organisation}</Card.Subtitle>
+                            <Card.Subtitle>{cert.dateEarned}</Card.Subtitle>
+                            <Card.Text>{cert.description}</Card.Text>
                         </Card.Body>
                     </Card>
                 ))
@@ -151,25 +149,25 @@ function PortfolioExperience({ experience, onSave }) {
                         borderRadius: '6px',
                     }}
                 >
-                    Add Experience
+                    Add Certification
                 </div>
             )}
             <EditPopUp
                 ComponentList={EditList}
-                ComponentEdit={ExperienceForm}
-                title="Edit Experience"
-                list={localExperience}
-                handleItemChange={handleExperienceChange}
-                handleRemoveItem={handleRemoveExperience}
+                ComponentEdit={CertificationsForm}
+                title="Edit Certification"
+                list={localCertificates}
+                handleItemChange={handleCertificateChange}
+                handleRemoveItem={handleRemoveCertificate}
                 show={showEdit}
                 toggle={cancelEdit}
                 save={saveEdit}
             />
             <AddPopUp
-                ComponentAdd={ExperienceForm}
-                title="Add Experience"
-                item={localExperience[localExperience.length - 1]}
-                handleItemChange={handleExperienceChange}
+                ComponentAdd={CertificationsForm}
+                title="Add Certification"
+                item={localCertificates[localCertificates.length - 1]}
+                handleItemChange={handleCertificateChange}
                 show={showAdd}
                 toggle={cancelAdd}
                 save={saveAdd}
@@ -178,4 +176,4 @@ function PortfolioExperience({ experience, onSave }) {
     );
 }
 
-export default PortfolioExperience;
+export default PortfolioCertification;

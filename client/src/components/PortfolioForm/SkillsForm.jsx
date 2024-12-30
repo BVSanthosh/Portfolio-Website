@@ -1,34 +1,33 @@
 /**
- * Language Component
+ * Skills Component
  */
 
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function LanguageForm({ item, handleItemChange }) {
+function SkillsForm({ item, handleItemChange }) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
         const value = e.target.value;
-        const updatedLanguage = {
+        const updatedSkill = {
             ...item,
-            language: value
+            name: value
         };
 
-        handleItemChange(updatedLanguage);
+        handleItemChange(updatedSkill);
     };
 
     return(
         <>
             <Row className="mb-3">
-                <Form.Group as={Col} controlId={`language-${item.id}`}>
+                <Form.Group as={Col} controlId={`achievements-${item.id}`}>
                     <Form.Control
-                        type="language"
+                        type="text"
                         name="skill"
-                        value={item.language}
+                        value={item.name}
                         onChange={handleChange}
-                        required
                     />
                 </Form.Group>
             </Row>
@@ -36,4 +35,4 @@ function LanguageForm({ item, handleItemChange }) {
     );
 }
 
-export default LanguageForm;
+export default SkillsForm;

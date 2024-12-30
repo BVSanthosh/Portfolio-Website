@@ -1,4 +1,3 @@
-
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,13 +9,15 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Pagination from 'react-bootstrap/Pagination';
 import Row from 'react-bootstrap/Row';
+import { v4 as uuidv4 } from 'uuid';
 
 import AddPopUp from './AddPopUp.jsx';
 import EditList from './EditList.jsx';
 import EditPopUp from './EditPopUp.jsx';
-import SkillForm from '../PortfolioForm/SkillForm.jsx';
+import SkillsForm from '../PortfolioForm/SkillsForm.jsx';
 
-function PortfolioSkills({ skills, handleSkillChange, handleAddSkill, handleRemoveSkill }) {
+function PortfolioSkills({ skills, onSave}) {
+    const [localSkills, setLocalSkills] = useState([...skills]);
     const [page, setPage] = useState(1);
     const [showEdit, setShowEdit] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
@@ -33,53 +34,101 @@ function PortfolioSkills({ skills, handleSkillChange, handleAddSkill, handleRemo
     const handlePrevPage = () => setPage(prev => Math.max(prev - 1, 1));
     const handleNextPage = () => setPage(prev => Math.min(prev + 1, totalPages));
 
-    const toggleEdit = () => setShowEdit(!showEdit);
-    
+    const handleSkillChange = (updatedSkill) => {
+        setLocalSkills(prevSkills => prevSkills.map(skill => skill.id == updatedSkill.id ? updatedSkill : skill));
+    };
+
+    const handleAddSkill = () => {
+        setLocalSkills([
+            ...localSkills,
+            {
+                id: uuidv4(),
+                name: ''
+            }
+        ]);
+    }
+
+    const handleRemoveSkill = (skill) => {
+        setLocalSkills(localSkills.filter(s => s.id !== skill.id));
+    };
+
+    const handleSave = () => {
+        onSave(localSkills);
+        persistSkillsChange(localSkills);
+    };
+
+    const toggleEdit = () => {
+        setShowEdit(true);
+    };
+
     const toggleAdd = () => {
         handleAddSkill();
-        setShowAdd(!showAdd);
+        setShowAdd(true);
     };
 
     const saveEdit = () => {
-        setShowEdit(!showEdit);
-        persistSkillChange();
+        setShowEdit(false);
+        handleSave();
     };
 
     const saveAdd = () => {
-        setShowAdd(!showAdd);
-        persistSkillChange();
+        setShowAdd(false);
+        handleSave();
     };
 
-    const persistSkillChange = async () => {
-        try {
-            const updatedSkills = {
-                section: 'skills',
-                data: skills
-            }
+    const cancelAdd = () => {
+        setLocalSkills([...localSkills]);
+        setShowAdd(false);
+    };
 
-            const response = await axios.put('http://localhost:5000/api/v1/user/portfolio/update', updatedSkills);
+    const cancelEdit = () => {
+        setLocalSkills([...localSkills]);
+        setShowEdit(false);
+    };
+
+    const persistSkillsChange = async (updatedSkills) => {
+        try {
+            const payload = {
+                section: 'skills',
+                data: updatedSkills
+            };
+
+            const response = await axios.put('http://localhost:5000/api/v1/user/portfolio/update', payload);
 
             if (response.data.success) {
-                console.log('Education section updated successfully');
+                console.log('Skills section updated successfully');
             } else {
-                console.error('Failed to update education section. Please try again.');
+                console.error('Failed to update skills section. Please try again.');
             }
-        } catch(error) {
-            console.error('Error updating about section:', error.response ? error.response.data : error.message);
+        } catch (error) {
+            console.error('Error updating skills section:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
-        <Container>
+        <Container id="skill">
             <Row>
                 <Col>
-                    <h2>Skills</h2>
+                    <h2 style={{ paddingTop: '18px', marginBottom: '10px' }}>Skills</h2> 
                 </Col>
-                <Col className="d-flex flex-row-reverse my-2">
-                    <Button type="button" size="sm" variant="outline-light" className="mx-1" onClick={toggleAdd}>
+                <Col className="d-flex flex-row-reverse my-2" style={{ paddingTop: '16px'}}> 
+                    <Button 
+                        type="button" 
+                        size="sm" 
+                        variant="outline-light" 
+                        className="mx-1" 
+                        onClick={toggleAdd}
+                    >
                         <FontAwesomeIcon icon={faPlus}/>
                     </Button>
-                    <Button type="button" size="sm" variant="outline-light" className="mx-1" onClick={toggleEdit} disabled={!(skills && skills.length > 0)}>
+                    <Button 
+                        type="button"
+                        size="sm"
+                        variant="outline-light"
+                        className="mx-1"
+                        onClick={toggleEdit}
+                        disabled={!(skills && skills.length > 0)}
+                    >
                         <FontAwesomeIcon icon={faEdit}/>
                     </Button>
                 </Col>
@@ -98,19 +147,45 @@ function PortfolioSkills({ skills, handleSkillChange, handleAddSkill, handleRemo
                         ))}
                     </Row>
                 )) : (
-                    <div style={{border: "1px solid #fff", padding: "10px", display: "flex", justifyContent: "center", borderRadius: "6px" }}>
+                    <div style={{
+                            border: "1px solid #fff", 
+                            padding: "10px", 
+                            display: "flex", 
+                            justifyContent: "center", 
+                            borderRadius: "6px" 
+                        }}>
                         Add Skill
                     </div>
             )}
-            {skills && skills.length > 0 ? (<Pagination className="justify-content-center">
-                <Pagination.First onClick={() => setPage(1)} disabled={page==1}/>
-                <Pagination.Prev onClick={handlePrevPage} disabled={page==1}/>
-                <Pagination.Item active>{page}</Pagination.Item>
-                <Pagination.Next onClick={handleNextPage} disabled={page==totalPages}/>
-                <Pagination.Last onClick={() => setPage(totalPages)} disabled={page==totalPages}/>
-            </Pagination> ) : ''}
-            {showEdit && <EditPopUp ComponentList={EditList} ComponentEdit={SkillForm} title={'Edit Experience'} list={skills} handleItemChange={handleSkillChange} handleRemoveItem={handleRemoveSkill} show={showEdit} toggle={toggleEdit} save={saveEdit}/>}
-            {showAdd && <AddPopUp ComponentAdd={SkillForm} title={'Add Experience'} item={skills[skills.length - 1]} handleItemChange={handleSkillChange} show={showAdd} toggle={toggleAdd} save={saveAdd}/>}
+            {skills && skills.length > 0 ? (
+                <Pagination className="justify-content-center">
+                    <Pagination.First onClick={() => setPage(1)} disabled={page == 1}/>
+                    <Pagination.Prev onClick={handlePrevPage} disabled={page == 1}/>
+                    <Pagination.Item active>{page}</Pagination.Item>
+                    <Pagination.Next onClick={handleNextPage} disabled={page == totalPages}/>
+                    <Pagination.Last onClick={() => setPage(totalPages)} disabled={page == totalPages}/>
+                </Pagination>
+            ) : ''}
+            <EditPopUp
+                ComponentList={EditList}
+                ComponentEdit={SkillsForm}
+                title={'Edit Skills'}
+                list={localSkills}
+                handleItemChange={handleSkillChange}
+                handleRemoveItem={handleRemoveSkill}
+                show={showEdit}
+                toggle={cancelEdit}
+                save={saveEdit}
+            />
+            <AddPopUp
+                ComponentAdd={SkillsForm}
+                title={'Add Skill'}
+                item={localSkills[localSkills.length - 1]}
+                handleItemChange={handleSkillChange}
+                show={showAdd}
+                toggle={cancelAdd}
+                save={saveAdd}
+            />
         </Container>
     );
 }

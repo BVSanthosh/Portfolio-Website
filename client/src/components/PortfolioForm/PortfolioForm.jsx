@@ -12,17 +12,17 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import { useNavigate } from 'react-router-dom';
 
-import AwardForm from './AwardForm.jsx';   //imports the awards section component
-import CertificationForm from './CertificationForm.jsx';   //imports the certifications section component
+import AwardsForm from './AwardsForm.jsx';   //imports the awards section component
+import CertificationsForm from './CertificationsForm.jsx';   //imports the certifications section component
 import ContactForm from './ContactForm.jsx';   //imports the Contact Information section component  
 import EducationForm from './EducationForm.jsx';
 import ExperienceForm from './ExperienceForm.jsx';
 import GenerateSections from './GenerateSections.jsx';
-import InterestForm from './InterestForm.jsx';   //imports the interests section component
-import LanguageForm from './LanguageForm.jsx';   //imports the languages section component
-import ProjectForm from './ProjectForm.jsx';   //imports the projects section component
-import PublicationForm from './PublicationForm.jsx';   //imports the publications section component
-import SkillForm from './SkillForm.jsx';
+import InterestsForm from './InterestsForm.jsx';   //imports the interests section component
+import LanguagesForm from './LanguagesForm.jsx';   //imports the languages section component
+import ProjectsForm from './ProjectsForm.jsx';   //imports the projects section component
+import PublicationsForm from './PublicationsForm.jsx';   //imports the publications section component
+import SkillsForm from './SkillsForm.jsx';
 import SummaryForm from './SummaryForm.jsx';   //imports the summary section component
 import VolunteerForm from './VolunteerForm.jsx';   //imports the volunteer section component
 
@@ -39,6 +39,7 @@ function PortfolioForm() {
         location: '',
         linkedIn: '',
     });
+    const [profileImage, setProfileImage] = useState(null);
     const [summary, setSummary] = useState('');   //state for manging the summary section
     const [experiences, setExperiences] = useState([]);   //state for managing the experience section
     const [educations, setEducations] = useState([]);   //state for managing the education section
@@ -70,16 +71,6 @@ function PortfolioForm() {
     const [toggleVol, setToggleVol] = useState(false);
     const [toggleInt, setToggleInt] = useState(false);
 
-    const formData = {   //the entire form data passed as the body in a post request
-        contactInfo: contactInfo,
-        summary: summary,
-        experience: experiences,
-        education: educations,
-        skills: skills,
-        projects: projects,
-        certifications: certificates
-    };
-
     //event handler for updating the input fields in the contact info section
     const handleContactChange = (e) => {
         const { name, value } = e.target;
@@ -88,12 +79,32 @@ function PortfolioForm() {
             ...prevData,
             [name]: value
         }));
-    }
+    };
+
+    //event handler for updating the profile image in the contact info section
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif') {
+                const maxSize = 5 * 1024 * 1024;
+
+                if (file.size > maxSize) {
+                    alert('File size exceeds 5MB. Please upload a smaller file.');
+                    return;
+                }
+
+                setProfileImage(file);
+            } else {
+                alert('Please upload a JPEG or PNG image.');
+            }
+        }
+    };
 
     //event handler for updating textarea for the summary section
     const handleSummaryChange = (e) => {
         setSummary(e.target.value);
-    }
+    };
 
     //event handler for updating the input fields of an experience sub-section
     const handleExperienceChange  = (updatedExperience) => {
@@ -186,6 +197,7 @@ function PortfolioForm() {
             ...projects,
             {
                 id: nextProjId,
+                title: '',
                 achievements: ''
             }
         ]);
@@ -354,7 +366,33 @@ function PortfolioForm() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/user/form-fillup', formData);   //makes a post request with the form data and JWT token
+            const formData = new FormData();
+
+            // Append the contact info to the formData
+            formData.append('contactInfo', JSON.stringify(contactInfo));
+            formData.append('summary', summary);
+            formData.append('experience', JSON.stringify(experiences));
+            formData.append('education', JSON.stringify(educations));
+            formData.append('skills', JSON.stringify(skills));
+            formData.append('projects', JSON.stringify(projects));
+            formData.append('certifications', JSON.stringify(certificates));
+            formData.append('publications', JSON.stringify(publications));
+            formData.append('awards', JSON.stringify(awards));
+            formData.append('languages', JSON.stringify(languages));
+            formData.append('volunteerExps', JSON.stringify(volunteerExps));
+            formData.append('interests', JSON.stringify(interests));
+
+            // Append the profile image to the formData if available
+            if (profileImage) {
+                formData.append('profileImage', profileImage);
+            }
+
+            // Make the POST request to the backend
+            const response = await axios.post('http://localhost:5000/api/v1/user/form-fillup', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
 
             if (response.data.success) {
                 console.log('Form filled up successfully:', response.data);
@@ -375,7 +413,7 @@ function PortfolioForm() {
                 <hr />
                 <Row className="mb-3">
                     <Col md={12}>
-                        <ContactForm item={contactInfo} handleItemChange={handleContactChange}/>
+                        <ContactForm item={contactInfo} handleItemChange={handleContactChange} handleFileChange={handleFileChange}/>
                     </Col>
                 </Row>
                 <Row className="mb-5">
@@ -395,32 +433,32 @@ function PortfolioForm() {
                 </Row>
                 <Row className="mb-3">
                     <Col md={12}>
-                        <GenerateSections Component={SkillForm} title={'Skills'} list={skills} handleItemChange={handleSkillChange} handleAddItem={handleAddSkill} handleRemoveItem={handleRemoveSkill}/>
+                        <GenerateSections Component={SkillsForm} title={'Skills'} list={skills} handleItemChange={handleSkillChange} handleAddItem={handleAddSkill} handleRemoveItem={handleRemoveSkill}/>
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <Col md={12}>
-                        {toggleProj && <GenerateSections Component={ProjectForm} title={'Projects'} list={projects} handleItemChange={handleProjectChange} handleAddItem={handleAddProject} handleRemoveItem={handleRemoveProject}/>}
+                        {toggleProj && <GenerateSections Component={ProjectsForm} title={'Projects'} list={projects} handleItemChange={handleProjectChange} handleAddItem={handleAddProject} handleRemoveItem={handleRemoveProject}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <Col md={12}>
-                        {toggleCert && <GenerateSections Component={CertificationForm} title={'Certifications'} list={certificates} handleItemChange={handleCertificateChange} handleAddItem={handleAddCertificate} handleRemoveItem={handleRemoveCertificate}/>}
+                        {toggleCert && <GenerateSections Component={CertificationsForm} title={'Certifications'} list={certificates} handleItemChange={handleCertificateChange} handleAddItem={handleAddCertificate} handleRemoveItem={handleRemoveCertificate}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <Col md={12}>
-                        {togglePub && <GenerateSections Component={PublicationForm} title={'Publications'} list={publications} handleItemChange={handlePublicationChange} handleAddItem={handleAddPublication} handleRemoveItem={handleRemovePublication}/>}
+                        {togglePub && <GenerateSections Component={PublicationsForm} title={'Publications'} list={publications} handleItemChange={handlePublicationChange} handleAddItem={handleAddPublication} handleRemoveItem={handleRemovePublication}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <Col md={12}>
-                        {toggleAward && <GenerateSections Component={AwardForm} title={'Awards'} list={awards} handleItemChange={handleAwardChange} handleAddItem={handleAddAward} handleRemoveItem={handleRemoveAward}/>}
+                        {toggleAward && <GenerateSections Component={AwardsForm} title={'Awards'} list={awards} handleItemChange={handleAwardChange} handleAddItem={handleAddAward} handleRemoveItem={handleRemoveAward}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
                     <Col md={12}>
-                        {toggleLang && <GenerateSections Component={LanguageForm} title={'Languages'} list={languages} handleItemChange={handleLanguageChange} handleAddItem={handleAddLanguage} handleRemoveItem={handleRemoveLanguage}/>}
+                        {toggleLang && <GenerateSections Component={LanguagesForm} title={'Languages'} list={languages} handleItemChange={handleLanguageChange} handleAddItem={handleAddLanguage} handleRemoveItem={handleRemoveLanguage}/>}
                     </Col>
                 </Row>
                 <Row className="mb-3">
@@ -430,7 +468,7 @@ function PortfolioForm() {
                 </Row>
                 <Row className="mb-3">
                     <Col md={12}>
-                        {toggleInt && <GenerateSections Component={InterestForm} title={'Hobbies'} list={interests} handleItemChange={handleInterestChange} handleAddItem={handleAddInterest} handleRemoveItem={handleRemoveInterest}/>}
+                        {toggleInt && <GenerateSections Component={InterestsForm} title={'Hobbies and Interests'} list={interests} handleItemChange={handleInterestChange} handleAddItem={handleAddInterest} handleRemoveItem={handleRemoveInterest}/>}
                     </Col>
                 </Row>
                 <hr />

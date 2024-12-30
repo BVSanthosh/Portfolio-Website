@@ -1,5 +1,5 @@
 /**
- * Award Component
+ * Awards Component
  */
 
 import Col from 'react-bootstrap/Col';
@@ -7,7 +7,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function AwardForm({ item, handleItemChange }) {
+function AwardsForm({ item, handleItemChange }) {
 
     //event handler for reading the user input
     const handleChange = (e) => {
@@ -78,4 +78,4 @@ function AwardForm({ item, handleItemChange }) {
     );
 }
 
-export default AwardForm;
+export default AwardsForm;

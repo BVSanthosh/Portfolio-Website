@@ -36,7 +36,8 @@ exports.signup = async (req, res) => {
             lastName,
             email,
             password: hashedPassword,
-            verified: false
+            verified: false,
+            profileCreated: false
         });
 
         await newUser.save();
@@ -97,7 +98,7 @@ exports.login = async (req, res) => {
             id: existingUser._id,               
             firstName: existingUser.firstName, 
             lastName: existingUser.lastName,   
-            email: existingUser.email
+            email: existingUser.email,
         };
 
         const token = jwt.sign(
@@ -107,7 +108,7 @@ exports.login = async (req, res) => {
         );
 
         res.cookie('token', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: false,
             sameSite: 'Lax',
             maxAge: 3600000
@@ -119,7 +120,8 @@ exports.login = async (req, res) => {
             data: {
                 firstName: existingUser.firstName,
                 lastName: existingUser.lastName,
-                email: existingUser.email
+                email: existingUser.email,
+                profileCreated: existingUser.profileCreated
             }
         });
 

@@ -1,5 +1,5 @@
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons'; 
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -13,45 +13,44 @@ import { v4 as uuidv4 } from 'uuid';
 import AddPopUp from './AddPopUp.jsx';
 import EditList from './EditList.jsx';
 import EditPopUp from './EditPopUp.jsx';
-import ExperienceForm from '../PortfolioForm/ExperienceForm.jsx';
+import LanguageForm from '../PortfolioForm/LanguagesForm.jsx';
 
-function PortfolioExperience({ experience, onSave }) {
-    const [localExperience, setLocalExperience] = useState([]);
+function PortfolioLanguages({ languages, onSave }) {
+    const [localLanguages, setLocalLanguages] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
 
     useEffect(() => {
-        if (experience && experience.length > 0) {
-            setLocalExperience(experience);
+        if (languages && languages.length > 0) {
+            setLocalLanguages(languages);
         }
-    }, [experience]);
+    }, [languages]);
 
-    const handleExperienceChange = (updatedExperience) => {
-        setLocalExperience(prevExperience => prevExperience.map(exp => exp.id === updatedExperience.id ? updatedExperience : exp));
+    const handleLanguageChange = (updatedLanguage) => {
+        setLocalLanguages(prevLanguages =>
+            prevLanguages.map(lang =>
+                lang.id === updatedLanguage.id ? updatedLanguage : lang
+            )
+        );
     };
 
-    const handleAddExperience = () => {
-        setLocalExperience([
-            ...localExperience,
+    const handleAddLanguage = () => {
+        setLocalLanguages([
+            ...localLanguages,
             {
                 id: uuidv4(),
-                jobTitle: '',
-                companyName: '',
-                location: '',
-                startDate: '',
-                endDate: '',
-                description: ''
-            }
+                language: '',
+            },
         ]);
     };
 
-    const handleRemoveExperience = (exp) => {
-        setLocalExperience(localExperience.filter(item => item.id !== exp.id));
+    const handleRemoveLanguage = (language) => {
+        setLocalLanguages(localLanguages.filter(lang => lang.id !== language.id));
     };
 
     const handleSave = () => {
-        onSave(localExperience);
-        persistExperienceChange(localExperience);
+        onSave(localLanguages);
+        persistLanguagesChange(localLanguages);
     };
 
     const toggleEdit = () => {
@@ -59,7 +58,7 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const toggleAdd = () => {
-        handleAddExperience();
+        handleAddLanguage();
         setShowAdd(true);
     };
 
@@ -74,39 +73,39 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const cancelAdd = () => {
-        setLocalExperience([...experience]);
+        setLocalLanguages([...languages]);
         setShowAdd(false);
     };
 
     const cancelEdit = () => {
-        setLocalExperience([...experience]);
+        setLocalLanguages([...languages]);
         setShowEdit(false);
     };
 
-    const persistExperienceChange = async (updatedExperience) => {
+    const persistLanguagesChange = async (updatedLanguages) => {
         try {
             const payload = {
-                section: 'experience',
-                data: updatedExperience,
+                section: 'languages',
+                data: updatedLanguages,
             };
 
             const response = await axios.put('http://localhost:5000/api/v1/user/portfolio/update', payload);
 
             if (response.data.success) {
-                console.log('Experience section updated successfully');
+                console.log('Languages section updated successfully');
             } else {
-                console.error('Failed to update experience section. Please try again.');
+                console.error('Failed to update languages section. Please try again.');
             }
         } catch (error) {
-            console.error('Error updating experience section:', error.response ? error.response.data : error.message);
+            console.error('Error updating languages section:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
-        <Container id="experience">
+        <Container id="language">
             <Row>
                 <Col>
-                    <h2>Experience</h2>
+                    <h2>Languages</h2>
                 </Col>
                 <Col className="d-flex flex-row-reverse my-2">
                     <Button
@@ -124,20 +123,23 @@ function PortfolioExperience({ experience, onSave }) {
                         variant="outline-light"
                         className="mx-1"
                         onClick={toggleEdit}
-                        disabled={localExperience.length === 0}
+                        disabled={localLanguages.length === 0}
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                 </Col>
             </Row>
-            {experience.length > 0 ? (
-                experience.map((exp) => (
-                    <Card key={exp.id} className="my-3" border="light" bg="dark" text="light">
+            {languages && languages.length > 0 ? (
+                languages.map(lang => (
+                    <Card
+                        key={lang.id}
+                        className="my-3"
+                        border="light"
+                        bg="dark"
+                        text="light"
+                    >
                         <Card.Body>
-                            <Card.Title>{exp.companyName}</Card.Title>
-                            <Card.Subtitle>{exp.jobTitle}</Card.Subtitle>
-                            <Card.Subtitle>{exp.startDate} - {exp.endDate}, {exp.location}</Card.Subtitle>
-                            <Card.Text>{exp.description}</Card.Text>
+                            <Card.Title>{lang.language}</Card.Title>
                         </Card.Body>
                     </Card>
                 ))
@@ -151,25 +153,25 @@ function PortfolioExperience({ experience, onSave }) {
                         borderRadius: '6px',
                     }}
                 >
-                    Add Experience
+                    Add Language
                 </div>
             )}
             <EditPopUp
                 ComponentList={EditList}
-                ComponentEdit={ExperienceForm}
-                title="Edit Experience"
-                list={localExperience}
-                handleItemChange={handleExperienceChange}
-                handleRemoveItem={handleRemoveExperience}
+                ComponentEdit={LanguageForm}
+                title="Edit Languages"
+                list={localLanguages}
+                handleItemChange={handleLanguageChange}
+                handleRemoveItem={handleRemoveLanguage}
                 show={showEdit}
                 toggle={cancelEdit}
                 save={saveEdit}
             />
             <AddPopUp
-                ComponentAdd={ExperienceForm}
-                title="Add Experience"
-                item={localExperience[localExperience.length - 1]}
-                handleItemChange={handleExperienceChange}
+                ComponentAdd={LanguageForm}
+                title="Add Language"
+                item={localLanguages[localLanguages.length - 1]}
+                handleItemChange={handleLanguageChange}
                 show={showAdd}
                 toggle={cancelAdd}
                 save={saveAdd}
@@ -178,4 +180,4 @@ function PortfolioExperience({ experience, onSave }) {
     );
 }
 
-export default PortfolioExperience;
+export default PortfolioLanguages;

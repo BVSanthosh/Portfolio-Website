@@ -8,12 +8,21 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-function ContactForm({ item, handleItemChange }) {
+function ContactForm({ item, handleItemChange, handleFileChange }) {
 
     return (
         <Container>
             <h4>Contact Information</h4>
             <Row className="mb-3">
+                <Form.Group as={Col} controlId="profileImage">
+                    <Form.Control
+                        type="file"
+                        accept="image/jpeg, image/png, image/gif"
+                        name="profileImage"
+                        onChange={handleFileChange}
+                        style={{ height: '100%' }}
+                    />
+                </Form.Group>
                 <Form.Group as={Col} controlId="firstName">
                     <FloatingLabel label="First Name">
                         <Form.Control
@@ -82,7 +91,6 @@ function ContactForm({ item, handleItemChange }) {
                             name="linkedIn"  
                             value={item.linkedIn}
                             onChange={handleItemChange}
-                            required
                         />
                     </FloatingLabel>
                 </Form.Group>

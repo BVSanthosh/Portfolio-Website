@@ -13,45 +13,43 @@ import { v4 as uuidv4 } from 'uuid';
 import AddPopUp from './AddPopUp.jsx';
 import EditList from './EditList.jsx';
 import EditPopUp from './EditPopUp.jsx';
-import ExperienceForm from '../PortfolioForm/ExperienceForm.jsx';
+import PublicationsForm from '../PortfolioForm/PublicationsForm.jsx';
 
-function PortfolioExperience({ experience, onSave }) {
-    const [localExperience, setLocalExperience] = useState([]);
+function PortfolioPublications({ publications, onSave }) {
+    const [localPublications, setLocalPublications] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
 
     useEffect(() => {
-        if (experience && experience.length > 0) {
-            setLocalExperience(experience);
+        if (publications && publications.length > 0) {
+            setLocalPublications(publications);
         }
-    }, [experience]);
+    }, [publications]);
 
-    const handleExperienceChange = (updatedExperience) => {
-        setLocalExperience(prevExperience => prevExperience.map(exp => exp.id === updatedExperience.id ? updatedExperience : exp));
+    const handlePublicationChange = (updatedPublication) => {
+        setLocalPublications(prevPublications => prevPublications.map(pub => pub.id === updatedPublication.id ? updatedPublication : pub));
     };
 
-    const handleAddExperience = () => {
-        setLocalExperience([
-            ...localExperience,
+    const handleAddPublication = () => {
+        setLocalPublications([
+            ...localPublications,
             {
                 id: uuidv4(),
-                jobTitle: '',
-                companyName: '',
-                location: '',
-                startDate: '',
-                endDate: '',
-                description: ''
+                title: '',
+                datePublished: '',
+                description: '',
+                link: ''
             }
         ]);
     };
 
-    const handleRemoveExperience = (exp) => {
-        setLocalExperience(localExperience.filter(item => item.id !== exp.id));
+    const handleRemovePublication = (publication) => {
+        setLocalPublications(localPublications.filter(pub => pub.id !== publication.id));
     };
 
     const handleSave = () => {
-        onSave(localExperience);
-        persistExperienceChange(localExperience);
+        onSave(localPublications);
+        persistPublicationsChange(localPublications);
     };
 
     const toggleEdit = () => {
@@ -59,7 +57,7 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const toggleAdd = () => {
-        handleAddExperience();
+        handleAddPublication();
         setShowAdd(true);
     };
 
@@ -74,39 +72,39 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const cancelAdd = () => {
-        setLocalExperience([...experience]);
+        setLocalPublications([...publications]);
         setShowAdd(false);
     };
 
     const cancelEdit = () => {
-        setLocalExperience([...experience]);
+        setLocalPublications([...publications]);
         setShowEdit(false);
     };
 
-    const persistExperienceChange = async (updatedExperience) => {
+    const persistPublicationsChange = async (updatedPublications) => {
         try {
             const payload = {
-                section: 'experience',
-                data: updatedExperience,
+                section: 'publications',
+                data: updatedPublications,
             };
 
             const response = await axios.put('http://localhost:5000/api/v1/user/portfolio/update', payload);
 
             if (response.data.success) {
-                console.log('Experience section updated successfully');
+                console.log('Publications section updated successfully');
             } else {
-                console.error('Failed to update experience section. Please try again.');
+                console.error('Failed to update publications section. Please try again.');
             }
         } catch (error) {
-            console.error('Error updating experience section:', error.response ? error.response.data : error.message);
+            console.error('Error updating publications section:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
-        <Container id="experience">
+        <Container id="publication">
             <Row>
                 <Col>
-                    <h2>Experience</h2>
+                    <h2>Publications</h2>
                 </Col>
                 <Col className="d-flex flex-row-reverse my-2">
                     <Button
@@ -124,20 +122,20 @@ function PortfolioExperience({ experience, onSave }) {
                         variant="outline-light"
                         className="mx-1"
                         onClick={toggleEdit}
-                        disabled={localExperience.length === 0}
+                        disabled={localPublications.length === 0}
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                 </Col>
             </Row>
-            {experience.length > 0 ? (
-                experience.map((exp) => (
-                    <Card key={exp.id} className="my-3" border="light" bg="dark" text="light">
+            {publications.length > 0 ? (
+                publications.map((pub) => (
+                    <Card key={pub.id} className="my-3" border="light" bg="dark" text="light">
                         <Card.Body>
-                            <Card.Title>{exp.companyName}</Card.Title>
-                            <Card.Subtitle>{exp.jobTitle}</Card.Subtitle>
-                            <Card.Subtitle>{exp.startDate} - {exp.endDate}, {exp.location}</Card.Subtitle>
-                            <Card.Text>{exp.description}</Card.Text>
+                            <Card.Title>{pub.title}</Card.Title>
+                            <Card.Subtitle>{pub.datePublished}</Card.Subtitle>
+                            <Card.Text>{pub.description}</Card.Text>
+                            <Card.Text>{pub.link}</Card.Text>
                         </Card.Body>
                     </Card>
                 ))
@@ -151,25 +149,25 @@ function PortfolioExperience({ experience, onSave }) {
                         borderRadius: '6px',
                     }}
                 >
-                    Add Experience
+                    Add Publication
                 </div>
             )}
             <EditPopUp
                 ComponentList={EditList}
-                ComponentEdit={ExperienceForm}
-                title="Edit Experience"
-                list={localExperience}
-                handleItemChange={handleExperienceChange}
-                handleRemoveItem={handleRemoveExperience}
+                ComponentEdit={PublicationsForm}
+                title="Edit Publications"
+                list={localPublications}
+                handleItemChange={handlePublicationChange}
+                handleRemoveItem={handleRemovePublication}
                 show={showEdit}
                 toggle={cancelEdit}
                 save={saveEdit}
             />
             <AddPopUp
-                ComponentAdd={ExperienceForm}
-                title="Add Experience"
-                item={localExperience[localExperience.length - 1]}
-                handleItemChange={handleExperienceChange}
+                ComponentAdd={PublicationsForm}
+                title="Add Publication"
+                item={localPublications[localPublications.length - 1]}
+                handleItemChange={handlePublicationChange}
                 show={showAdd}
                 toggle={cancelAdd}
                 save={saveAdd}
@@ -178,4 +176,4 @@ function PortfolioExperience({ experience, onSave }) {
     );
 }
 
-export default PortfolioExperience;
+export default PortfolioPublications;

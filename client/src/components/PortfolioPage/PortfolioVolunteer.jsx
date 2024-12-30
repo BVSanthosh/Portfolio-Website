@@ -13,45 +13,44 @@ import { v4 as uuidv4 } from 'uuid';
 import AddPopUp from './AddPopUp.jsx';
 import EditList from './EditList.jsx';
 import EditPopUp from './EditPopUp.jsx';
-import ExperienceForm from '../PortfolioForm/ExperienceForm.jsx';
+import VolunteerForm from '../PortfolioForm/VolunteerForm.jsx';
 
-function PortfolioExperience({ experience, onSave }) {
-    const [localExperience, setLocalExperience] = useState([]);
+function PortfolioVolunteer({ volunteerExps, onSave }) {
+    const [localVolunteerExps, setLocalVolunteerExps] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
 
     useEffect(() => {
-        if (experience && experience.length > 0) {
-            setLocalExperience(experience);
+        if (volunteerExps && volunteerExps.length > 0) {
+            setLocalVolunteerExps(volunteerExps);
         }
-    }, [experience]);
+    }, [volunteerExps]);
 
-    const handleExperienceChange = (updatedExperience) => {
-        setLocalExperience(prevExperience => prevExperience.map(exp => exp.id === updatedExperience.id ? updatedExperience : exp));
+    const handleVolunteerExpChange = (updatedExp) => {
+        setLocalVolunteerExps(prevExps => prevExps.map(exp => exp.id === updatedExp.id ? updatedExp : exp));
     };
 
-    const handleAddExperience = () => {
-        setLocalExperience([
-            ...localExperience,
+    const handleAddVolunteerExp = () => {
+        setLocalVolunteerExps([
+            ...localVolunteerExps,
             {
                 id: uuidv4(),
-                jobTitle: '',
-                companyName: '',
-                location: '',
+                position: '',
+                organisation: '',
                 startDate: '',
                 endDate: '',
-                description: ''
+                responsibilities: ''
             }
         ]);
     };
 
-    const handleRemoveExperience = (exp) => {
-        setLocalExperience(localExperience.filter(item => item.id !== exp.id));
+    const handleRemoveVolunteerExp = (exp) => {
+        setLocalVolunteerExps(localVolunteerExps.filter(e => e.id !== exp.id));
     };
 
     const handleSave = () => {
-        onSave(localExperience);
-        persistExperienceChange(localExperience);
+        onSave(localVolunteerExps);
+        persistExperienceChange(localVolunteerExps);
     };
 
     const toggleEdit = () => {
@@ -59,7 +58,7 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const toggleAdd = () => {
-        handleAddExperience();
+        handleAddVolunteerExp();
         setShowAdd(true);
     };
 
@@ -74,39 +73,39 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const cancelAdd = () => {
-        setLocalExperience([...experience]);
+        setLocalVolunteerExps([...volunteerExps]);
         setShowAdd(false);
     };
 
     const cancelEdit = () => {
-        setLocalExperience([...experience]);
+        setLocalVolunteerExps([...volunteerExps]);
         setShowEdit(false);
     };
 
-    const persistExperienceChange = async (updatedExperience) => {
+    const persistExperienceChange = async (updatedExperiences) => {
         try {
             const payload = {
-                section: 'experience',
-                data: updatedExperience,
+                section: 'volunteer',
+                data: updatedExperiences,
             };
 
             const response = await axios.put('http://localhost:5000/api/v1/user/portfolio/update', payload);
 
             if (response.data.success) {
-                console.log('Experience section updated successfully');
+                console.log('Volunteer experience updated successfully');
             } else {
-                console.error('Failed to update experience section. Please try again.');
+                console.error('Failed to update volunteer experience section. Please try again.');
             }
         } catch (error) {
-            console.error('Error updating experience section:', error.response ? error.response.data : error.message);
+            console.error('Error updating volunteer experience section:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
-        <Container id="experience">
+        <Container id="volunteerexperience">
             <Row>
                 <Col>
-                    <h2>Experience</h2>
+                    <h2>Volunteer Experience</h2>
                 </Col>
                 <Col className="d-flex flex-row-reverse my-2">
                     <Button
@@ -124,20 +123,20 @@ function PortfolioExperience({ experience, onSave }) {
                         variant="outline-light"
                         className="mx-1"
                         onClick={toggleEdit}
-                        disabled={localExperience.length === 0}
+                        disabled={localVolunteerExps.length === 0}
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                 </Col>
             </Row>
-            {experience.length > 0 ? (
-                experience.map((exp) => (
-                    <Card key={exp.id} className="my-3" border="light" bg="dark" text="light">
+            {localVolunteerExps.length > 0 ? (
+                localVolunteerExps.map((volunteerExp) => (
+                    <Card key={volunteerExp.id} className="my-3" border="light" bg="dark" text="light">
                         <Card.Body>
-                            <Card.Title>{exp.companyName}</Card.Title>
-                            <Card.Subtitle>{exp.jobTitle}</Card.Subtitle>
-                            <Card.Subtitle>{exp.startDate} - {exp.endDate}, {exp.location}</Card.Subtitle>
-                            <Card.Text>{exp.description}</Card.Text>
+                            <Card.Title>{volunteerExp.position}</Card.Title>
+                            <Card.Subtitle>{volunteerExp.organisation}</Card.Subtitle>
+                            <Card.Subtitle>{volunteerExp.startDate + " - " + volunteerExp.endDate}</Card.Subtitle>
+                            <Card.Text>{volunteerExp.responsibilities}</Card.Text>
                         </Card.Body>
                     </Card>
                 ))
@@ -151,25 +150,25 @@ function PortfolioExperience({ experience, onSave }) {
                         borderRadius: '6px',
                     }}
                 >
-                    Add Experience
+                    Add Volunteer Experience
                 </div>
             )}
             <EditPopUp
                 ComponentList={EditList}
-                ComponentEdit={ExperienceForm}
-                title="Edit Experience"
-                list={localExperience}
-                handleItemChange={handleExperienceChange}
-                handleRemoveItem={handleRemoveExperience}
+                ComponentEdit={VolunteerForm}
+                title="Edit Volunteer Experience"
+                list={localVolunteerExps}
+                handleItemChange={handleVolunteerExpChange}
+                handleRemoveItem={handleRemoveVolunteerExp}
                 show={showEdit}
                 toggle={cancelEdit}
                 save={saveEdit}
             />
             <AddPopUp
-                ComponentAdd={ExperienceForm}
-                title="Add Experience"
-                item={localExperience[localExperience.length - 1]}
-                handleItemChange={handleExperienceChange}
+                ComponentAdd={VolunteerForm}
+                title="Add Volunteer Experience"
+                item={localVolunteerExps[localVolunteerExps.length - 1]}
+                handleItemChange={handleVolunteerExpChange}
                 show={showAdd}
                 toggle={cancelAdd}
                 save={saveAdd}
@@ -178,4 +177,4 @@ function PortfolioExperience({ experience, onSave }) {
     );
 }
 
-export default PortfolioExperience;
+export default PortfolioVolunteer;

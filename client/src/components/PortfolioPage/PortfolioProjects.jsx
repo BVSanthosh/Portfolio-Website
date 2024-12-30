@@ -1,8 +1,8 @@
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons'; 
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -13,45 +13,35 @@ import { v4 as uuidv4 } from 'uuid';
 import AddPopUp from './AddPopUp.jsx';
 import EditList from './EditList.jsx';
 import EditPopUp from './EditPopUp.jsx';
-import ExperienceForm from '../PortfolioForm/ExperienceForm.jsx';
+import ProjectsForm from '../PortfolioForm/ProjectsForm.jsx';
 
-function PortfolioExperience({ experience, onSave }) {
-    const [localExperience, setLocalExperience] = useState([]);
+function PortfolioProjects({ projects, onSave }) {
+    const [localProjects, setLocalProjects] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
 
-    useEffect(() => {
-        if (experience && experience.length > 0) {
-            setLocalExperience(experience);
-        }
-    }, [experience]);
-
-    const handleExperienceChange = (updatedExperience) => {
-        setLocalExperience(prevExperience => prevExperience.map(exp => exp.id === updatedExperience.id ? updatedExperience : exp));
+    const handleProjectChange = (updatedProject) => {
+        setLocalProjects(prevProjects => prevProjects.map(proj => proj.id == updatedProject.id ? updatedProject : proj));
     };
 
-    const handleAddExperience = () => {
-        setLocalExperience([
-            ...localExperience,
+    const handleAddProject = () => {
+        setLocalProjects([
+            ...localProjects,
             {
                 id: uuidv4(),
-                jobTitle: '',
-                companyName: '',
-                location: '',
-                startDate: '',
-                endDate: '',
-                description: ''
+                title: '',
+                achievements: ''
             }
         ]);
     };
 
-    const handleRemoveExperience = (exp) => {
-        setLocalExperience(localExperience.filter(item => item.id !== exp.id));
+    const handleRemoveProject = (project) => {
+        setLocalProjects(localProjects.filter(proj => proj.id !== project.id));
     };
 
     const handleSave = () => {
-        onSave(localExperience);
-        persistExperienceChange(localExperience);
+        onSave(localProjects);
+        persistProjectsChange(localProjects);
     };
 
     const toggleEdit = () => {
@@ -59,7 +49,7 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const toggleAdd = () => {
-        handleAddExperience();
+        handleAddProject();
         setShowAdd(true);
     };
 
@@ -74,39 +64,39 @@ function PortfolioExperience({ experience, onSave }) {
     };
 
     const cancelAdd = () => {
-        setLocalExperience([...experience]);
+        setLocalProjects([...localProjects]);
         setShowAdd(false);
     };
 
     const cancelEdit = () => {
-        setLocalExperience([...experience]);
+        setLocalProjects([...localProjects]);
         setShowEdit(false);
     };
 
-    const persistExperienceChange = async (updatedExperience) => {
+    const persistProjectsChange = async (updatedProjects) => {
         try {
             const payload = {
-                section: 'experience',
-                data: updatedExperience,
+                section: 'projects',
+                data: updatedProjects,
             };
 
             const response = await axios.put('http://localhost:5000/api/v1/user/portfolio/update', payload);
 
             if (response.data.success) {
-                console.log('Experience section updated successfully');
+                console.log('Projects section updated successfully');
             } else {
-                console.error('Failed to update experience section. Please try again.');
+                console.error('Failed to update projects section. Please try again.');
             }
         } catch (error) {
-            console.error('Error updating experience section:', error.response ? error.response.data : error.message);
+            console.error('Error updating projects section:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
-        <Container id="experience">
+        <Container id="project">
             <Row>
                 <Col>
-                    <h2>Experience</h2>
+                    <h2>Projects</h2>
                 </Col>
                 <Col className="d-flex flex-row-reverse my-2">
                     <Button
@@ -124,20 +114,18 @@ function PortfolioExperience({ experience, onSave }) {
                         variant="outline-light"
                         className="mx-1"
                         onClick={toggleEdit}
-                        disabled={localExperience.length === 0}
+                        disabled={!(projects && projects.length > 0)}
                     >
                         <FontAwesomeIcon icon={faEdit} />
                     </Button>
                 </Col>
             </Row>
-            {experience.length > 0 ? (
-                experience.map((exp) => (
-                    <Card key={exp.id} className="my-3" border="light" bg="dark" text="light">
+            {projects && projects.length > 0 ? (
+                projects.map((proj) => (
+                    <Card key={proj.id} className="my-3" border="light" bg="dark" text="light">
                         <Card.Body>
-                            <Card.Title>{exp.companyName}</Card.Title>
-                            <Card.Subtitle>{exp.jobTitle}</Card.Subtitle>
-                            <Card.Subtitle>{exp.startDate} - {exp.endDate}, {exp.location}</Card.Subtitle>
-                            <Card.Text>{exp.description}</Card.Text>
+                            <Card.Title>{proj.title}</Card.Title>
+                            <Card.Text>{proj.achievements}</Card.Text>
                         </Card.Body>
                     </Card>
                 ))
@@ -151,25 +139,25 @@ function PortfolioExperience({ experience, onSave }) {
                         borderRadius: '6px',
                     }}
                 >
-                    Add Experience
+                    Add Project
                 </div>
             )}
             <EditPopUp
                 ComponentList={EditList}
-                ComponentEdit={ExperienceForm}
-                title="Edit Experience"
-                list={localExperience}
-                handleItemChange={handleExperienceChange}
-                handleRemoveItem={handleRemoveExperience}
+                ComponentEdit={ProjectsForm}
+                title={'Edit Projects'}
+                list={localProjects}
+                handleItemChange={handleProjectChange}
+                handleRemoveItem={handleRemoveProject}
                 show={showEdit}
                 toggle={cancelEdit}
                 save={saveEdit}
             />
             <AddPopUp
-                ComponentAdd={ExperienceForm}
-                title="Add Experience"
-                item={localExperience[localExperience.length - 1]}
-                handleItemChange={handleExperienceChange}
+                ComponentAdd={ProjectsForm}
+                title={'Add Project'}
+                item={localProjects[localProjects.length - 1]}
+                handleItemChange={handleProjectChange}
                 show={showAdd}
                 toggle={cancelAdd}
                 save={saveAdd}
@@ -178,4 +166,4 @@ function PortfolioExperience({ experience, onSave }) {
     );
 }
 
-export default PortfolioExperience;
+export default PortfolioProjects;
