@@ -142,7 +142,7 @@ export const projects: Project[] = [
 
   {
     slug: 'dental-receptionist',
-    name: 'Smiles Dental AI Receptionist',
+    name: 'AI Hospital Receptionist',
     subtitle: 'A multi-agent booking system with a real evaluation suite',
     blurb:
       'Four specialised agents behind a supervisor, handling bookings, reschedules and attendance confirmation — with an LLM-as-judge eval suite proving they respect clinic policy.',
@@ -408,7 +408,7 @@ export const projects: Project[] = [
     subtitle: 'A social platform with real-time messaging built in',
     blurb:
       'A full social product — posts, follows, likes, comments — with Socket.io direct messaging and presence layered on top of the same data model.',
-    period: 'Mar 2025 — Jun 2025',
+    period: 'Apr 2025 — May 2025',
     context: 'Consansoft · independent project',
     provenance: { kind: 'Personal', org: 'Consansoft', roleId: 'consansoft' },
     status: 'Archived',
@@ -455,7 +455,7 @@ export const projects: Project[] = [
     subtitle: 'A blogging platform, deployed on a VPS I configured by hand',
     blurb:
       'A publishing platform with a rich-text editor and optimistic UI — and the project where I stopped letting a platform do my deployment for me.',
-    period: 'Jan 2025 — May 2025',
+    period: 'Dec 2024 — Jan 2025',
     context: 'Consansoft · independent project',
     provenance: { kind: 'Personal', org: 'Consansoft', roleId: 'consansoft' },
     status: 'Archived',
