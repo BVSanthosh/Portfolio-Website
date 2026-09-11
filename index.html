@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <title>Venkata Santhosh Basina — Applied AI Engineer</title>
+    <meta
+      name="description"
+      content="Applied AI Engineer building agentic systems with LangGraph and LlamaIndex, and the AWS infrastructure that runs them. BSc Computer Science, University of St Andrews."
+    />
+    <link rel="canonical" href="https://basinavsanthosh.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Venkata Santhosh Basina — Applied AI Engineer" />
+    <meta
+      property="og:description"
+      content="I build agentic systems — and measure them. LangGraph, LlamaIndex, FastAPI, AWS."
+    />
+    <meta property="og:image" content="/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      // Set the theme before first paint so there is no flash of the wrong palette.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme')
+          var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (dark) document.documentElement.dataset.theme = 'dark'
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
