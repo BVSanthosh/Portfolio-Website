@@ -40,7 +40,7 @@ export const experience: Role[] = [
     period: 'Sep 2026',
     location: 'Remote',
     context:
-      'A fellowship for technologists working on climate. I joined to look seriously at where AI is genuinely useful in the sector.',
+      'A fellowship for people who care about the climate. I joined to look seriously at where AI is genuinely useful in the sector.',
     current: true,
     highlights: [],
   },
