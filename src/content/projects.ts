@@ -332,7 +332,7 @@ export const projects: Project[] = [
     period: 'Jul 2025 — Aug 2025',
     context: 'Chingu · team of 5',
     provenance: { kind: 'Team', org: 'Chingu', roleId: 'chingu' },
-    status: 'Prototype',
+    status: 'Deployed',
     featured: false,
     facts: [
       { value: '5', label: 'Developers coordinated' },
@@ -360,7 +360,10 @@ export const projects: Project[] = [
       'GDPR-conscious handling of patient data throughout.',
     ],
     stack: ['TypeScript', 'Express.js', 'Node.js', 'Supabase', 'React'],
-    links: [],
+    links: [
+      { label: 'Live platform', href: 'https://v56-tier3-team-35.vercel.app/', primary: true },
+      { label: 'Source', href: 'https://github.com/chingu-voyages/V56-tier3-team-35' },
+    ],
   },
 
   {
@@ -372,7 +375,7 @@ export const projects: Project[] = [
     period: 'Feb 2025 — Mar 2025',
     context: 'Independent project',
     provenance: { kind: 'Personal', org: 'Consansoft', roleId: 'consansoft' },
-    status: 'Archived',
+    status: 'Deployed',
     featured: false,
     facts: [
       { value: '100+', label: 'Concurrent sessions supported' },
@@ -398,7 +401,8 @@ export const projects: Project[] = [
     outcomes: ['Low-latency delivery across 100+ concurrent sessions.'],
     stack: ['React', 'Tailwind CSS', 'Node.js', 'Socket.io', 'MongoDB'],
     links: [
-      { label: 'Source', href: 'https://github.com/BVSanthosh/Chat-Applicaiton', primary: true },
+      { label: 'Live platform', href: 'https://chatcast.basinavsanthosh.workers.dev/', primary: true },
+      { label: 'Source', href: 'https://github.com/BVSanthosh/Chat-Applicaiton' },
     ],
   },
 
@@ -411,7 +415,7 @@ export const projects: Project[] = [
     period: 'Apr 2025 — May 2025',
     context: 'Consansoft · independent project',
     provenance: { kind: 'Personal', org: 'Consansoft', roleId: 'consansoft' },
-    status: 'Archived',
+    status: 'Deployed',
     featured: false,
     facts: [
       { value: '4', label: 'Mongoose models: user, post, message, conversation' },
@@ -445,7 +449,8 @@ export const projects: Project[] = [
     ],
     stack: ['React', 'Chakra UI', 'Recoil', 'Node.js', 'Express.js', 'Socket.io', 'MongoDB', 'Mongoose', 'Cloudinary', 'JWT'],
     links: [
-      { label: 'Source', href: 'https://github.com/BVSanthosh/Threads-Clone', primary: true },
+      { label: 'Live platform', href: 'https://convonet.basinavsanthosh.workers.dev/', primary: true },
+      { label: 'Source', href: 'https://github.com/BVSanthosh/Threads-Clone' },
     ],
   },
 
@@ -458,7 +463,7 @@ export const projects: Project[] = [
     period: 'Dec 2024 — Jan 2025',
     context: 'Consansoft · independent project',
     provenance: { kind: 'Personal', org: 'Consansoft', roleId: 'consansoft' },
-    status: 'Archived',
+    status: 'Deployed',
     featured: false,
     facts: [
       { value: 'Self-hosted', label: 'Hand-configured Linux VPS behind NGINX' },
@@ -503,7 +508,8 @@ export const projects: Project[] = [
     ],
     stack: ['React', 'Vite', 'TanStack Query', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'Clerk', 'ImageKit', 'NGINX', 'Linux'],
     links: [
-      { label: 'Source', href: 'https://github.com/BVSanthosh/Blog-Application', primary: true },
+      { label: 'Live platform', href: 'https://btechlogs.basinavsanthosh.workers.dev/', primary: true },
+      { label: 'Source', href: 'https://github.com/BVSanthosh/Blog-Application' },
     ],
   },
 ]
