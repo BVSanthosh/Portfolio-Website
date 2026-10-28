@@ -30,7 +30,7 @@ export type Project = {
   status: 'Deployed' | 'In development' | 'Prototype' | 'Archived'
   featured: boolean
   /** Which inline SVG to render on the case study page, if any. */
-  diagram?: 'dental' | 'eduagent' | 'scanner'
+  diagram?: 'dental' | 'eduagent' | 'scanner' | 'climeproof'
   /** The headline numbers on the case study page. Only verifiable things here. */
   facts: { value: string; label: string }[]
   problem: string
@@ -265,9 +265,9 @@ export const projects: Project[] = [
   {
     slug: 'medicine-scanner',
     name: 'Medicine Scanner',
-    subtitle: 'On-device OCR for counterfeit medicine detection',
+    subtitle: 'Three ways to read a pack, one server-side verdict',
     blurb:
-      'A React Native app that reads medicine packaging on-device, built at Graviton Systems — the client and its OCR pipeline are working; the verification backend is next.',
+      'A React Native app that checks medicine against a manufacturer register — by barcode, on-device OCR or manual entry — backed by an async FastAPI service that returns the verdict in a single round trip.',
     period: 'Aug 2026 — present',
     context: 'Graviton Systems',
     provenance: { kind: 'Company', org: 'Graviton Systems', roleId: 'graviton-systems' },
@@ -275,51 +275,179 @@ export const projects: Project[] = [
     featured: true,
     diagram: 'scanner',
     facts: [
-      { value: 'On-device', label: 'OCR runs locally, no image upload' },
-      { value: 'ML Kit', label: 'Google on-device text recognition' },
-      { value: 'Expo', label: 'React Native, TypeScript' },
+      { value: '3', label: 'Input paths: GS1 barcode, on-device OCR, manual entry' },
+      { value: '1', label: 'Round trip per scan — extraction and lookup in one call' },
+      { value: '49', label: 'Backend tests, run against in-memory SQLite' },
     ],
     problem:
-      'Counterfeit medicine is a genuine safety problem in the markets Graviton serves. Verifying a box means reading what is printed on it — but users are on variable connections, and shipping every photograph to a server to be read is slow, expensive, and a privacy liability.',
+      'Counterfeit medicine is a genuine safety problem in the markets Graviton serves. Checking a pack means reading what is printed on it and comparing that against what the manufacturer actually produced — on phones with variable connections, in the hands of people who will not retype a batch number twice.',
     sections: [
       {
-        heading: 'Where it currently stands',
+        heading: 'Three ways in',
         body: [
-          'The client is built and the capture-to-text path works end to end on the device. Optical character recognition happens on the phone through Google’s ML Kit, so the image never leaves the handset and there is no upload to wait on.',
-          'The verification backend is designed but not yet implemented. The diagram below shows the full intended shape, with the server half marked as planned — I would rather show the architecture I am building towards and say plainly which half exists.',
+          'The app tries the most reliable source first. A GS1 barcode — a GS1-128 or DataMatrix on most packs — already carries the GTIN, batch, expiry and serial as structured data. When there is no usable barcode, the camera falls back to Google ML Kit OCR, which runs on the device so the photograph never leaves the handset. Manual entry is the last resort, and arrives pre-filled with whatever the earlier paths did manage to resolve.',
+          'Raw OCR output interleaves columns, so a label and its value end up on different lines. Before anything is sent, the client rebuilds the printed rows from the text bounding boxes, putting "B.NO." back next to the number it labels. It also maps the on-screen guide box into the captured photo’s coordinates, so the crop it reads is the region the user actually aimed at.',
         ],
       },
       {
-        heading: 'The split, and why',
+        heading: 'One verdict, decided on the server',
         body: [
-          'What crosses the network is extracted text, not a photograph: orders of magnitude smaller, and carrying none of the ambient information an image does.',
-          'The server half will run a lightweight language model over that raw text to parse it into structured fields — product name, manufacturer, batch, expiry. That is a job LLMs are good at and regular expressions are miserable at, because packaging layout varies enormously between manufacturers.',
-          'Putting the expensive-but-dumb step on the device and the cheap-but-smart step on the server inverts the usual assumption. It removes network latency from the part of the interaction the user is actually waiting on, and keeps the part that will change often — the parsing logic — somewhere it can be updated without shipping an app release.',
+          'The client holds no verification logic at all. All three scan endpoints funnel into a single verify function, which is what guarantees a pack scanned by barcode, read by OCR and typed by hand reaches the same answer. The register is treated as authoritative over the pack: OCR misreads a product name far more often than the database is wrong.',
+          'The barcode is sent to the server undecoded, on purpose. The client decodes a copy for its live on-screen hint, but if the device supplied the batch number, a modified client could ask about any batch it liked and be told it was safe.',
+          'Every response carries the resolved fields and one of three outcomes — safe, unsafe, or unknown. "Not on file" is deliberately not treated as counterfeit; it tells the user to check with a pharmacist. The headline and message text come from the server, so the wording can change without shipping an app release.',
+        ],
+      },
+      {
+        heading: 'An LLM only where it earns its place',
+        body: [
+          'Only the OCR path uses a language model. Gemini extracts the fields against a JSON schema at temperature zero, so the endpoint parses a typed object rather than scraping prose, and the extraction and the register lookup happen in the same request — one round trip from the phone. The barcode path never touches a model: GS1 element strings are decoded deterministically, with check digits and the "day 00 means end of month" expiry rule handled properly.',
+          'A missing API key, a timeout or a malformed response falls back to a deterministic regex parser rather than failing. A degraded answer the user can correct is better than an error screen.',
+        ],
+      },
+      {
+        heading: 'The unglamorous parts',
+        body: [
+          'Async FastAPI over SQLAlchemy and asyncpg on PostgreSQL, with Alembic migrations, JWT auth and Argon2id password hashing. Structured logging, with a request ID in every error body. Separate liveness and readiness checks, Docker Compose for local runs, and dependencies pinned so a rebuild months from now ships the code that was tested.',
+          'Batch numbers are normalised on the server, so "BATCH NO: 49302" typed by hand resolves to the same register key as "B.NO.49302" read off the box — while still requiring a separator after the label, so a genuine batch called LOT9 is not mangled into 9.',
         ],
       },
     ],
     decisions: [
       {
-        title: 'On-device OCR over server-side vision',
-        body: 'Eliminates upload latency on a variable connection, cuts inference cost to zero for the recognition step, and means camera images never leave the handset.',
+        title: 'The verdict lives on the server, never the client',
+        body: 'A verdict the device computes is a verdict the device can forge. Sending raw input and deriving the batch number server-side means the answer is trustworthy even if the app is not.',
       },
       {
-        title: 'A small model for field extraction, not a large one',
-        body: 'Parsing known-shape text into four fields does not need frontier capability. A lightweight model keeps per-scan cost and latency low enough to be used casually.',
+        title: 'No model where a parser will do',
+        body: 'A barcode already carries structured data, so decoding it with an LLM would only add cost, latency and a way to be wrong. The model is reserved for OCR text, where packaging layouts vary too much for rules alone.',
       },
       {
-        title: 'Build the client against the contract first',
-        body: 'Settling the shape of the extracted-text payload before writing the server means the app is not blocked on the backend, and the backend has a real consumer to satisfy rather than a guess.',
+        title: 'Degrade, don’t fail',
+        body: 'The extraction step sits on the critical path of every OCR scan. Falling back to a deterministic parser when the model is unavailable keeps the endpoint answering, and the user can correct a partial result on the manual entry form.',
+      },
+      {
+        title: 'Rate-limit per user, not per IP',
+        body: 'Login is an offline password cracker with a network API in front of it, and every OCR scan costs an LLM call. Both are limited — keyed on the authenticated user where possible, so everyone behind one office or mobile-carrier NAT is not punished for a single noisy client.',
       },
     ],
     outcomes: [
-      'Built: the capture-to-text path, producing scanned text on-device in milliseconds with no network round trip.',
-      'Built: the scanning interface in React Native and Expo.',
-      'Next: the verification backend — LLM field extraction and the lookup it feeds.',
+      'Working end to end: barcode, OCR and manual entry all resolve through one verification service.',
+      'Each verification is a single client–server round trip, with LLM extraction and the register lookup combined server-side.',
+      'OCR extraction degrades to a deterministic parser instead of failing when the model is unavailable.',
+      '49 backend tests covering the API and the barcode and batch-number domain logic.',
     ],
-    stack: ['React Native', 'Expo', 'TypeScript', 'Google ML Kit'],
+    stack: [
+      'React Native',
+      'Expo',
+      'TypeScript',
+      'Google ML Kit',
+      'Python',
+      'FastAPI',
+      'PostgreSQL',
+      'SQLAlchemy',
+      'Alembic',
+      'Gemini API',
+      'Docker',
+      'JWT',
+    ],
     links: [
       { label: 'Source', href: 'https://github.com/BVSanthosh/Medicine_Scanner_App', primary: true },
+    ],
+  },
+
+  {
+    slug: 'climeproof-pipeline',
+    name: 'ClimeProof Geospatial Pipeline',
+    subtitle: 'Climate-hazard profiles for any U.S. address, every value traceable to its source',
+    blurb:
+      'A Python pipeline that turns an address into a climate-hazard record for a healthcare facility — heat, cold, winter storm, extreme precipitation and wildfire — with the provenance of every number attached.',
+    period: 'Sep 2026 — present',
+    context: 'ClimeProof',
+    provenance: { kind: 'Company', org: 'ClimeProof', roleId: 'climeproof' },
+    status: 'In development',
+    featured: true,
+    diagram: 'climeproof',
+    facts: [
+      { value: '77', label: 'Metrics in the versioned hazard schema' },
+      { value: '20', label: 'Computed in iteration 1, from five public datasets' },
+      { value: 'sha256', label: 'Hash of the raw response behind every value' },
+    ],
+    problem:
+      'A climate-vulnerability assessment for a hospital is only as good as the numbers underneath it, and a number nobody can trace is a number nobody should act on. ClimeProof needed hazard exposure for facilities anywhere in the U.S., computed the same way everywhere, with every value able to answer the question “where did this come from?”',
+    sections: [
+      {
+        heading: 'What it produces',
+        body: [
+          'Given an address, a pair of coordinates, or a CSV of thousands of either, the pipeline returns one record per location. Every record contains every metric in the schema, in the same order, so any two records are directly comparable.',
+          'The metrics span five hazards. Heat: days at or above 90, 100 and 105 °F, cooling degree days, heat-wave events, and the trend in 100 °F days. Cold: freeze and hard-freeze days, days at or below 0 °F, heating degree days. Winter storm: annual snowfall and days with snow on the ground. Extreme precipitation: annual totals, days over an inch, and the average wettest day of the year. Wildfire: burn probability around 2011 and projected for around 2047, and the risk to structures. Station record highs and lows sit alongside.',
+          'Batch runs write the records as JSONL, plus long and wide CSV views for analysis. Rows that cannot be geocoded go to their own file with the reason, instead of silently disappearing.',
+        ],
+      },
+      {
+        heading: 'Five sources, one contract',
+        body: [
+          'Addresses are geocoded through the U.S. Census Geocoder, singly or in batches of up to ten thousand rows. Climate statistics come from ACIS, which serves both the PRISM climate grid and NOAA GHCN-Daily station records. Wildfire comes from CarbonPlan’s Open Climate Risk dataset — 30 m resolution across the contiguous U.S., read through xarray from a zarr store. NASA Daymet provides an independent 1 km cross-check.',
+          'Each source is a provider module behind one contract. Point providers make one query per location; gridded stores are vectorised over the whole batch instead, so a national 30 m raster is read once per run rather than once per facility. Adding a source means a schema entry, a provider module and a registration — the orchestration stays untouched.',
+        ],
+      },
+      {
+        heading: 'Recent climate, honestly windowed',
+        body: [
+          'Climate metrics describe the recent climate: the mean over the most recent fifteen complete calendar years, so 2011–2025 for a run in October 2026. Trends use thirty years, because a trend needs a longer record. Only complete years are averaged, so a partial year never skews an annual count.',
+          'Record highs and lows come from the nearest active station with at least thirty years of record, through yesterday. Every value states the exact years it used, and the windows move forward on their own each January.',
+        ],
+      },
+      {
+        heading: 'Traceable by construction',
+        body: [
+          'Every raw response is cached. Each value’s provenance records the source, the dataset version, the retrieval time, the exact request made, and the sha256 of the response it was computed from — so any number in any record can be traced back to the bytes behind it.',
+          'The schema version, the config version and a hash of the config are written into every record. A run can be repeated offline from the cache, and an earlier run can be recreated for an audit by pinning the end year.',
+        ],
+      },
+    ],
+    decisions: [
+      {
+        title: 'No LLM, on purpose',
+        body: 'This is deterministic data plumbing. A hazard figure that could differ between two identical runs is useless to an assessment, and nothing in the pipeline needs judgement a model would add. Knowing when not to reach for an LLM is part of the job.',
+      },
+      {
+        title: 'Missing data is a value, not a gap',
+        body: 'Every metric carries one of five states: OK, N/A, NO_DATA, NOT_IMPLEMENTED or ERROR — and no field is ever omitted. Separating N/A (storm surge does not apply inland) from NO_DATA (it could apply, but no public dataset covers this location) keeps visible exactly the gaps an assessment most needs to see.',
+      },
+      {
+        title: 'The full schema from day one',
+        body: 'All 77 metrics are emitted from the first iteration, with the unbuilt ones marked NOT_IMPLEMENTED. Consumers build against the final shape now, and progress is a count that has to reach zero by handoff rather than a claim.',
+      },
+      {
+        title: 'Built only on public inputs',
+        body: 'Development and testing use bulk public data — county sets, national facility datasets, civic landmarks. Participating facilities’ details never enter the repository, its tests or its history.',
+      },
+    ],
+    outcomes: [
+      'Iteration 1 computes 20 of the 77 schema metrics across five hazards, from five public datasets.',
+      'Batch mode geocodes and profiles CSV inputs, routing anything unplaceable to its own report.',
+      'A compare command cross-checks extreme-heat counts against NOAA normals and Daymet for quality control.',
+      'Offline unit tests against faked HTTP, plus live smoke tests against the real APIs.',
+    ],
+    stack: [
+      'Python',
+      'pydantic',
+      'xarray',
+      'zarr',
+      'pytest',
+      'uv',
+      'ACIS / PRISM',
+      'NOAA GHCN-Daily',
+      'CarbonPlan Open Climate Risk',
+      'NASA Daymet',
+      'U.S. Census Geocoder',
+    ],
+    links: [
+      {
+        label: 'Source',
+        href: 'https://github.com/BVSanthosh/ClimeProof_Geospatial_Pipeline',
+        primary: true,
+      },
     ],
   },
 
@@ -331,7 +459,9 @@ export const projects: Project[] = [
       'Led five developers building a live surgical status dashboard, with role-separated access over sensitive patient records.',
     period: 'Jul 2025 — Aug 2025',
     context: 'Chingu · team of 5',
-    provenance: { kind: 'Team', org: 'Chingu', roleId: 'chingu' },
+    // No roleId: Chingu is no longer on the experience timeline, so the tag
+    // names the programme without linking to a role that isn't there.
+    provenance: { kind: 'Team', org: 'Chingu' },
     status: 'Deployed',
     featured: false,
     facts: [

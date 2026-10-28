@@ -2,42 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://basinavsanthosh.com/</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://basinavsanthosh.com/work/eduagent</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://basinavsanthosh.com/work/dental-receptionist</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://basinavsanthosh.com/work/medicine-scanner</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://basinavsanthosh.com/work/climeproof-pipeline</loc>
+    <lastmod>2026-10-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://basinavsanthosh.com/work/surgery-status-board</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://basinavsanthosh.com/work/chatcast</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://basinavsanthosh.com/work/convonet</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://basinavsanthosh.com/work/btechlogs</loc>
-    <lastmod>2026-09-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>

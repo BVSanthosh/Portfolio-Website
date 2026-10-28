@@ -10,7 +10,7 @@ export function Work() {
     <section id="work" className="shell scroll-mt-24 py-24 md:py-36">
       <SectionHeading
         eyebrow="01 / Selected projects"
-        title="Three systems, built end to end."
+        title="Four systems, built end to end."
         intro={
           <p>
             Each of these has a full write-up: the problem, the architecture, the decisions I would

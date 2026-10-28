@@ -17,6 +17,22 @@ export type Role = {
 
 export const experience: Role[] = [
   {
+    id: 'climeproof',
+    company: 'ClimeProof',
+    title: 'Software Engineer',
+    employment: 'Part-time',
+    period: 'Sep 2026 — Present',
+    location: 'California · Remote',
+    context: 'Climate-vulnerability risk assessment for healthcare facilities.',
+    current: true,
+    highlights: [
+      'Developed a Python geospatial data pipeline that generates climate-hazard profiles — heat, cold, winter storm, extreme precipitation and wildfire — for any U.S. address, using pydantic and xarray.',
+      'Integrated five public climate and geospatial datasets (PRISM/ACIS, NOAA GHCN-Daily, CarbonPlan Open Climate Risk, U.S. Census Geocoder, NASA Daymet) into 20 standardised risk metrics.',
+      'Designed a 77-metric hazard data schema with versioning, validation and explicit missing-data states, so outputs are consistent and comparable across locations.',
+    ],
+    caseStudy: { slug: 'climeproof-pipeline', label: 'Read the case study' },
+  },
+  {
     id: 'graviton-systems',
     company: 'Graviton Systems',
     title: 'AI Developer',
@@ -27,22 +43,11 @@ export const experience: Role[] = [
       'Health-tech startup building an AI-native orchestration layer for patient conversations.',
     current: true,
     highlights: [
-      'Built the medicine scanner mobile app in React Native and Expo, letting users verify shop-bought medicine against a trusted source.',
-      'Implemented on-device OCR with Google ML Kit so images are processed locally in milliseconds — no upload, no network latency, no photographs leaving the handset.',
+      'Developed a React Native and TypeScript mobile app with a three-tier scanning pipeline: GS1 barcode decoding, on-device ML Kit OCR, and manual entry.',
+      'Engineered an async FastAPI and PostgreSQL REST API with JWT and Argon2id auth, rate limiting, structured logging and Dockerised deployment.',
+      'Consolidated LLM extraction and the database lookup into one server-side call, cutting each verification to a single round trip with graceful degradation.',
     ],
     caseStudy: { slug: 'medicine-scanner', label: 'Read the case study' },
-  },
-  {
-    id: 'climatebase',
-    company: 'Climatebase',
-    title: 'Climatebase Fellow',
-    employment: 'Fellowship',
-    period: 'Sep 2026',
-    location: 'Remote',
-    context:
-      'A fellowship for people who care about the climate. I joined to look seriously at where AI is genuinely useful in the sector.',
-    current: true,
-    highlights: [],
   },
   {
     id: 'pixelize-labs',
@@ -58,23 +63,6 @@ export const experience: Role[] = [
       'Designed the Express.js backend in TypeScript with a clean directory structure and integrated Prisma ORM for type-safe database access.',
       'Dockerised Postgres for local development, removing the setup friction every new contributor had been hitting.',
     ],
-  },
-  {
-    id: 'chingu',
-    company: 'Chingu',
-    title: 'Backend Engineer',
-    employment: 'Volunteer',
-    period: 'Jul 2025 — Aug 2025',
-    location: 'Remote',
-    context:
-      'A global programme where developers collaborate on production-grade projects. I led a team of five building a Surgery Center Status Board.',
-    highlights: [
-      'Led five developers through sprint planning, code review and version control workflow.',
-      'Authored the User Requirements Specification, turning an ambiguous brief into features the team could actually build against.',
-      'Engineered the Express.js backend in TypeScript with REST APIs for patient and surgery records.',
-      'Integrated Supabase for persistence and Supabase Auth for role-based access to sensitive records.',
-    ],
-    caseStudy: { slug: 'surgery-status-board', label: 'Read the case study' },
   },
   {
     id: 'consansoft',

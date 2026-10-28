@@ -9,11 +9,13 @@ import { NotFound } from './NotFound'
 import { DentalGraph } from '../diagrams/DentalGraph'
 import { EduAgentArchitecture } from '../diagrams/EduAgentArchitecture'
 import { ScannerFlow } from '../diagrams/ScannerFlow'
+import { ClimeProofPipeline } from '../diagrams/ClimeProofPipeline'
 
 const DIAGRAMS = {
   dental: DentalGraph,
   eduagent: EduAgentArchitecture,
   scanner: ScannerFlow,
+  climeproof: ClimeProofPipeline,
 }
 
 export function CaseStudy() {
